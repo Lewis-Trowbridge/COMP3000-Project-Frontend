@@ -5,5 +5,12 @@
   "repository": "https://github.com/Lewis-Trowbridge/COMP3000-Project-Frontend.git",
   "author": "lewis.trowbridge@students.plymouth.ac.uk",
   "license": "Unlicensed",
-  "private": true
+  "private": true,
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "parcel": "^2.7.0"
+  }
 }

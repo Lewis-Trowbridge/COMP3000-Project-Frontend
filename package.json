@@ -1,7 +1,6 @@
 {
   "name": "COMP3000-Project-Frontend",
   "version": "0.0.1-alpha1",
-  "main": "index.js",
   "repository": "https://github.com/Lewis-Trowbridge/COMP3000-Project-Frontend.git",
   "author": "lewis.trowbridge@students.plymouth.ac.uk",
   "license": "Unlicensed",

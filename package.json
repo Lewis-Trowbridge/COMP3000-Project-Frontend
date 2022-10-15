@@ -8,6 +8,7 @@
   "private": true,
   "scripts": {
     "run": "parcel src/index.html",
+    "build": "parcel build src/index.html",
     "lint": "eslint **/*.{js,jsx}"
   },
   "dependencies": {

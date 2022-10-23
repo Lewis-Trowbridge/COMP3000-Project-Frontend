@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "run": "parcel src/index.html",
-    "build": "parcel build src/index.html",
+    "build": "parcel build src/index.html --public-url /comp3000-frontend/",
     "lint": "eslint **/*.{js,jsx}"
   },
   "dependencies": {

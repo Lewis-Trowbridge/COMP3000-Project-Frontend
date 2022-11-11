@@ -106,4 +106,47 @@ describe('useBackend', () => {
       },
     )
   })
+
+  it('makes a call whenever bbox is changed', async () => {
+    const oldBbox = {
+      bottomLeftX: 0,
+      bottomLeftY: 0,
+      topRightX: 0,
+      topRightY: 0,
+    }
+
+    const newBox = {
+      bottomLeftX: 1,
+      bottomLeftY: 1,
+      topRightX: 1,
+      topRightY: 1,
+    }
+    const testObject = {
+      bbox: oldBbox,
+      timestamp: new Date(),
+    }
+
+    renderHook(() => useBackend(testObject))
+    await act(() => {
+      testObject.bbox = newBox
+    })
+
+    await waitFor(() => expect(mockFetch).toBeCalledTimes(2))
+    expect(mockFetch).toHaveBeenNthCalledWith(
+      1,
+      `${URLS.BACKEND}/api/airquality`,
+      {
+        body: JSON.stringify({ ...testObject, bbox: oldBbox }),
+        method: 'POST',
+      },
+    )
+    expect(mockFetch).toHaveBeenNthCalledWith(
+      2,
+      `${URLS.BACKEND}/api/airquality`,
+      {
+        body: JSON.stringify({ ...testObject, bbox: newBox }),
+        method: 'POST',
+      },
+    )
+  })
 })

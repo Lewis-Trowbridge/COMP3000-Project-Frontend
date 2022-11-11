@@ -39,7 +39,7 @@ describe('useBackend', () => {
     }
 
     await act(() => {
-      renderHook(() => useBackend(testObject.timestamp, testObject.bbox))
+      renderHook(() => useBackend(testObject))
     })
 
     expect(mockFetch).toBeCalledTimes(1)
@@ -64,11 +64,46 @@ describe('useBackend', () => {
       timestamp: new Date(),
     }
 
+    const { result } = renderHook(() => useBackend(testObject))
+
+    await waitFor(() => expect(result.current.data).toBe(mockData))
+  })
+
+  it('makes a call when the timestamp is changed', async () => {
+    const oldTimestamp = new Date(0)
+    const newTimestamp = new Date(1)
+
+    const testObject = {
+      bbox: {
+        bottomLeftX: 0,
+        bottomLeftY: 0,
+        topRightX: 0,
+        topRightY: 0,
+      },
+      timestamp: oldTimestamp,
+    }
+
+    renderHook(() => useBackend(testObject))
     await act(() => {
-      const { result } = renderHook(() => useBackend(testObject.timestamp, testObject.bbox))
-      waitFor(() => expect(mockFetch).toBeCalledTimes(1)).then(() => {
-        expect(result.current.data).toBe(mockData)
-      })
+      testObject.timestamp = newTimestamp
     })
+
+    await waitFor(() => expect(mockFetch).toBeCalledTimes(2))
+    expect(mockFetch).toHaveBeenNthCalledWith(
+      1,
+      `${URLS.BACKEND}/api/airquality`,
+      {
+        body: JSON.stringify({ ...testObject, timestamp: oldTimestamp }),
+        method: 'POST',
+      },
+    )
+    expect(mockFetch).toHaveBeenNthCalledWith(
+      2,
+      `${URLS.BACKEND}/api/airquality`,
+      {
+        body: JSON.stringify({ ...testObject, timestamp: newTimestamp }),
+        method: 'POST',
+      },
+    )
   })
 })

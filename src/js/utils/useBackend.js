@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { URLS } from '../constants'
 
-const useBackend = (timestamp, bbox) => {
+const useBackend = ({ timestamp, bbox }) => {
   const url = `${URLS.BACKEND}/api/airquality`
   const [data, setData] = useState([])
 

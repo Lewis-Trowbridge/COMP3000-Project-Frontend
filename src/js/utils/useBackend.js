@@ -6,8 +6,8 @@ const useBackend = (timestamp, bbox) => {
   const [data, setData] = useState([])
 
   useEffect(() => {
-    const requestObject = { bbox, timestamp }
-    const request = fetch(url, { body: JSON.stringify(requestObject), method: 'POST' })
+    const requestObject = JSON.stringify({ bbox, timestamp })
+    const request = fetch(url, { body: requestObject, method: 'POST' })
     request.then((response) => response.json()
       .then((json) => setData(json)))
   }, [timestamp, bbox, url])

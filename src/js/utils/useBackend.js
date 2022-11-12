@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import useDeepCompareEffect from 'use-deep-compare-effect'
 import { URLS } from '../constants'
 
 const useBackend = ({ timestamp, bbox }) => {
   const url = `${URLS.BACKEND}/api/airquality`
   const [data, setData] = useState([])
 
-  useEffect(() => {
+  useDeepCompareEffect(() => {
     const requestObject = JSON.stringify({ bbox, timestamp })
     const request = fetch(url, {
       body: requestObject,

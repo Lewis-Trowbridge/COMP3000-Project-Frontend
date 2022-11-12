@@ -1,5 +1,5 @@
 const URLS = {
-  BACKEND: 'https://backend-xsji6nno4q-ew.a.run.app',
+  BACKEND: process.env.BACKEND_URL,
 }
 
 export {

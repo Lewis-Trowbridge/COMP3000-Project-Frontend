@@ -19,6 +19,14 @@ const mockData = [{
 }]
 /* eslint-enable sort-keys */
 
+const expectedRequestValues = {
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  method: 'POST',
+  mode: 'cors',
+}
+
 const mockFetch = jest.fn().mockReturnValue(
   Promise.resolve({
     json: jest.fn().mockReturnValue(Promise.resolve(mockData)),
@@ -48,7 +56,7 @@ describe('useBackend', () => {
       `${URLS.BACKEND}/api/airquality`,
       {
         body: JSON.stringify(testObject),
-        method: 'POST',
+        ...expectedRequestValues,
       },
     )
   })
@@ -94,7 +102,7 @@ describe('useBackend', () => {
       `${URLS.BACKEND}/api/airquality`,
       {
         body: JSON.stringify({ ...testObject, timestamp: oldTimestamp }),
-        method: 'POST',
+        ...expectedRequestValues,
       },
     )
     expect(mockFetch).toHaveBeenNthCalledWith(
@@ -102,7 +110,7 @@ describe('useBackend', () => {
       `${URLS.BACKEND}/api/airquality`,
       {
         body: JSON.stringify({ ...testObject, timestamp: newTimestamp }),
-        method: 'POST',
+        ...expectedRequestValues,
       },
     )
   })
@@ -137,7 +145,7 @@ describe('useBackend', () => {
       `${URLS.BACKEND}/api/airquality`,
       {
         body: JSON.stringify({ ...testObject, bbox: oldBbox }),
-        method: 'POST',
+        ...expectedRequestValues,
       },
     )
     expect(mockFetch).toHaveBeenNthCalledWith(
@@ -145,7 +153,7 @@ describe('useBackend', () => {
       `${URLS.BACKEND}/api/airquality`,
       {
         body: JSON.stringify({ ...testObject, bbox: newBox }),
-        method: 'POST',
+        ...expectedRequestValues,
       },
     )
   })

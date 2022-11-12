@@ -7,7 +7,14 @@ const useBackend = ({ timestamp, bbox }) => {
 
   useEffect(() => {
     const requestObject = JSON.stringify({ bbox, timestamp })
-    const request = fetch(url, { body: requestObject, method: 'POST' })
+    const request = fetch(url, {
+      body: requestObject,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+      mode: 'cors',
+    })
     request.then((response) => response.json()
       .then((json) => setData(json)))
   }, [timestamp, bbox, url])

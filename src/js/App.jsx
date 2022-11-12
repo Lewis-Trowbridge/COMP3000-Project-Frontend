@@ -1,4 +1,5 @@
 import useBackend from './utils/useBackend'
+import Map from './components/Map'
 
 function App() {
   // eslint-disable-next-line no-unused-vars
@@ -12,7 +13,7 @@ function App() {
   })
 
   return (
-    <p>Hello world!</p>
+    <Map />
   )
 }
 

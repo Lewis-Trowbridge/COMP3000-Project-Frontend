@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react'
 import Stations from '../Stations'
-import { BACKEND_RESPONSES } from '../../__tests__/constants'
+import { BACKEND_RESPONSES } from '../../testConstants'
 import useBackend from '../../utils/useBackend'
 
 const mockMap = {

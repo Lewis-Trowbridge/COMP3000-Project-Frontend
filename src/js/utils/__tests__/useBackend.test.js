@@ -1,7 +1,7 @@
 import { act, renderHook, waitFor } from '@testing-library/react'
 import useBackend from '../useBackend'
 import { URLS } from '../../constants'
-import { BACKEND_RESPONSES } from '../../__tests__/constants'
+import { BACKEND_RESPONSES } from '../../testConstants'
 
 // Disable sort keys as data structure does not need to be alphabetised
 /* eslint-disable sort-keys */

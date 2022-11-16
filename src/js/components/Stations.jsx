@@ -1,4 +1,4 @@
-import { useMapEvents } from 'react-leaflet'
+import { Marker, useMapEvents } from 'react-leaflet'
 import { useState } from 'react'
 import useBackend from '../utils/useBackend'
 
@@ -25,8 +25,13 @@ const Stations = () => {
     },
   })
 
-  // eslint-disable-next-line no-unused-vars
   const { data } = useBackend({ bbox: bounds })
+
+  return (
+    <div>
+      {data.map(({ station }) => <Marker key={station.name} position={station.coordinates} />)}
+    </div>
+  )
 }
 
 export default Stations

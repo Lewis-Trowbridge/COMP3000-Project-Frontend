@@ -2,7 +2,7 @@ import { useMapEvents } from 'react-leaflet'
 import { useState } from 'react'
 import useBackend from '../utils/useBackend'
 
-function Stations() {
+const Stations = () => {
   const [bounds, setBounds] = useState({})
   const map = useMapEvents({
     load: () => {

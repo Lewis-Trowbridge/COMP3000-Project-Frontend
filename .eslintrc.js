@@ -25,6 +25,10 @@ module.exports = {
     'jest',
   ],
   rules: {
+    'react/function-component-definition': [2, {
+      namedComponents: 'arrow-function',
+      unnamedComponents: 'arrow-function',
+    }],
     'react/react-in-jsx-scope': 0,
     semi: [1, 'never'],
     'sort-keys': 2,

@@ -2,7 +2,7 @@
   "ci": {
     "collect": {
       "staticDistDir": "./dist",
-      "isSinglePathApplication": true
+      "isSinglePageApplication": true
     }
   }
 }

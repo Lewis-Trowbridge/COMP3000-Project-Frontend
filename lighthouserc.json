@@ -2,6 +2,7 @@
   "ci": {
     "collect": {
       "staticDistDir": "./dist",
+      "url": "http://localhost/comp3000-frontend/index.html",
       "isSinglePathApplication": true
     }
   }

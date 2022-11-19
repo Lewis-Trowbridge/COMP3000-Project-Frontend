@@ -4,15 +4,15 @@ const Reading = ({
   name, value, unit, timestamp,
 }) => (
   <div className="reading">
-    <p>{name}</p>
+    <span>{name}</span>
     <br />
-    <p>
+    <span>
       {value}
       {' '}
       {unit}
-    </p>
+    </span>
     <br />
-    <p>{new Date(Date.parse(timestamp)).toUTCString()}</p>
+    <span>{new Date(Date.parse(timestamp)).toUTCString()}</span>
   </div>
 )
 
@@ -20,8 +20,7 @@ Reading.propTypes = {
   name: PropTypes.string.isRequired,
   timestamp: PropTypes.string.isRequired,
   unit: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
-
+  value: PropTypes.number.isRequired,
 }
 
 export default Reading

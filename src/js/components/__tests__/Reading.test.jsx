@@ -6,7 +6,7 @@ describe('<Reading/>', () => {
     const expectedDate = new Date(0)
     const expectedName = 'name'
     const expectedUnit = 'unit'
-    const expectedValue = 'value'
+    const expectedValue = 0.0
 
     const { findByText } = render(<Reading
       unit={expectedUnit}

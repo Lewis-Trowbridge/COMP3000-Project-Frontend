@@ -78,7 +78,9 @@
         "cypress_version": "10",
         "exclude": [],
         "parallels": 5,
-        "npm_dependencies": {},
+        "npm_dependencies": {
+            "cypress": "10.8.0"
+        },
         "package_config_options": {},
         "headless": true
     },

@@ -75,7 +75,7 @@
     ],
     "run_settings": {
         "cypress_config_file": "./cypress.config.js",
-        "cypress_version": "11",
+        "cypress_version": "10",
         "exclude": [],
         "parallels": 1,
         "npm_dependencies": {},

@@ -1,6 +1,7 @@
-import { Marker, useMapEvents } from 'react-leaflet'
+import { Marker, Popup, useMapEvents } from 'react-leaflet'
 import { useState } from 'react'
 import useBackend from '../utils/useBackend'
+import Reading from './Reading'
 
 const Stations = () => {
   const [bounds, setBounds] = useState({})
@@ -29,7 +30,18 @@ const Stations = () => {
 
   return (
     <div>
-      {data.map(({ station }) => <Marker key={station.name} position={station.coordinates} />)}
+      {data.map((reading) => (
+        <Marker key={reading.station.name} position={reading.station.coordinates}>
+          <Popup attribution={reading.licenseInfo}>
+            <Reading
+              name={reading.station.name}
+              unit={reading.unit}
+              value={reading.value}
+              timestamp={reading.timestamp}
+            />
+          </Popup>
+        </Marker>
+      ))}
     </div>
   )
 }

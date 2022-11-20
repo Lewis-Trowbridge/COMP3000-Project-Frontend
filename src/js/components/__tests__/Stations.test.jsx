@@ -5,13 +5,14 @@ import { BACKEND_RESPONSES } from '../../testConstants'
 import useBackend from '../../utils/useBackend'
 
 jest.mock('react-leaflet', () => ({
-  // eslint-disable-next-line react/prop-types
-  Marker: ({ position }) => (
-    <p>
-      {/* eslint-disable-next-line react/prop-types */}
-      {`${position.lat}, ${position.lng}`}
-    </p>
+  /* eslint-disable react/prop-types */
+  Marker: ({ children, position }) => (
+    <div>
+      <p>{`${position.lat}, ${position.lng}`}</p>
+      {children}
+    </div>
   ),
+  Popup: ({ children }) => (<div>{children}</div>),
   useMapEvents: jest.fn().mockReturnValue({
     getBounds: jest.fn().mockReturnValue({
       getNorthEast: () => ({
@@ -25,6 +26,7 @@ jest.mock('react-leaflet', () => ({
     }),
   }),
 }))
+/* eslint-enable react/prop-types */
 
 jest.mock('../../utils/useBackend', () => ({
   __esModule: true,
@@ -74,5 +76,13 @@ describe('<Stations/>', () => {
       useMapEvents.mock.lastCall[0].moveend()
     })
     expect(await queryByText(expectedText)).toBeInTheDocument()
+  })
+
+  it('renders a popup with the given information', async () => {
+    useBackend.mockReturnValueOnce({ data: [BACKEND_RESPONSES.VALID] })
+
+    const { findByText } = render(<Stations />)
+
+    expect(await findByText(`${BACKEND_RESPONSES.VALID.value} ${BACKEND_RESPONSES.VALID.unit}`)).toBeInTheDocument()
   })
 })

@@ -5,6 +5,7 @@ module.exports = {
     'jest/globals': true,
   },
   extends: [
+    'plugin:cypress/recommended',
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
     'airbnb',

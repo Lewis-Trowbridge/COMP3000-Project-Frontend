@@ -32,7 +32,7 @@ const Stations = () => {
     <div>
       {data.map((reading) => (
         <Marker key={reading.station.name} position={reading.station.coordinates}>
-          <Popup>
+          <Popup attribution={reading.licenseInfo}>
             <Reading
               name={reading.station.name}
               unit={reading.unit}

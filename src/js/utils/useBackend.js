@@ -17,7 +17,7 @@ const useBackend = ({ timestamp, bbox }) => {
       mode: 'cors',
     })
     request.then((response) => response.json()
-      .then((json) => setData(json)))
+      .then((json) => setData(json))).catch((err) => { console.log(err) })
   }, [timestamp, bbox, url])
 
   return { data }

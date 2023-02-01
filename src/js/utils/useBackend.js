@@ -17,7 +17,8 @@ const useBackend = ({ timestamp, bbox }) => {
       mode: 'cors',
     })
     request.then((response) => response.json()
-      .then((json) => setData(json))).catch((err) => { console.log(err) })
+      // eslint-disable-next-line no-console
+      .then((json) => setData(json))).catch((err) => { console.error(err) })
   }, [timestamp, bbox, url])
 
   return { data }

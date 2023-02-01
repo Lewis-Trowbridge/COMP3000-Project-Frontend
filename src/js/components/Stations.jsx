@@ -27,7 +27,17 @@ const Stations = ({ date }) => {
     },
   })
 
-  const { data } = useBackend({ bbox: bounds, timestamp: date.toISOString() })
+  const sameDay = (newDate) => {
+    const now = new Date()
+    return newDate.getUTCDate() === now.getUTCDate()
+          && newDate.getUTCMonth() === now.getUTCMonth()
+          && newDate.getUTCFullYear() === now.getUTCFullYear()
+  }
+
+  const { data } = useBackend({
+    bbox: bounds,
+    timestamp: sameDay(date) ? null : date.toISOString(),
+  })
 
   return (
     <div>

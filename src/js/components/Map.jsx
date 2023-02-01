@@ -4,7 +4,7 @@ import Stations from './Stations'
 import TimeSlider from './TimeSlider'
 
 const Map = () => {
-  const [date, setDate] = useState()
+  const [date, setDate] = useState(new Date())
 
   return (
     <MapContainer center={[51.505, -0.09]} zoom={13}>

@@ -1,0 +1,41 @@
+{
+    "browsers": [
+        {
+            "browser": "chrome",
+            "os": "Windows 10",
+            "versions": [
+                "latest"
+            ]
+        },
+        {
+            "browser": "firefox",
+            "os": "Windows 10",
+            "versions": [
+                "latest"
+            ]
+        },
+        {
+            "browser": "edge",
+            "os": "Windows 10",
+            "versions": [
+                "latest"
+            ]
+        }
+    ],
+    "run_settings": {
+        "cypress_config_file": "./cypress.config.js",
+        "cypress_version": "10",
+        "exclude": [],
+        "parallels": 5,
+        "npm_dependencies": {
+            "cypress": "10.8.0"
+        },
+        "package_config_options": {},
+        "headless": true
+    },
+    "connection_settings": {
+        "local": true,
+        "local_identifier": "test"
+    },
+    "disable_usage_reporting": false
+}

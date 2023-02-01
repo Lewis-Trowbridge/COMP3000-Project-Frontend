@@ -25,7 +25,7 @@ jobs:
           local-identifier: random
 
       - name: Install dependencies
-        run: yarn install
+        run: npm 
       - name: Install Browserstack CLI
         run: npm install -g browserstack-cypress-cli
       - name: Build

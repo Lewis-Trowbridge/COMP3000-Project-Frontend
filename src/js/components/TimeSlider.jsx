@@ -2,9 +2,10 @@ import L from 'leaflet'
 import {
   useRef, useMemo, useEffect, useState,
 } from 'react'
+import PropTypes from 'prop-types'
 import { LEAFLET_POSITION_CLASSES, TIME_VALUES } from '../constants'
 
-const TimeSlider = () => {
+const TimeSlider = ({ date, setDate }) => {
   const ref = useRef(null)
 
   useEffect(() => {
@@ -15,12 +16,11 @@ const TimeSlider = () => {
 
   const [now] = useState(new Date())
   const upperBound = useMemo(() => (now.getTime() + TIME_VALUES.THREE_YEARS_IN_MS), [now])
-  const [date, setDate] = useState(now)
   const [unixTimestamp, setUnixTimestamp] = useState(Math.floor(Date.now()))
 
   useEffect(() => {
     setDate(new Date(unixTimestamp))
-  }, [unixTimestamp])
+  }, [setDate, unixTimestamp])
 
   return (
     <div ref={ref} className={LEAFLET_POSITION_CLASSES.bottomleft}>
@@ -30,8 +30,10 @@ const TimeSlider = () => {
             type="range"
             min={TIME_VALUES.JAN_1_1990_UNIX_TIMESTAMP}
             max={upperBound}
-            value={unixTimestamp}
-            onChange={(event) => { setUnixTimestamp(event.target.valueAsNumber) }}
+            defaultValue={unixTimestamp}
+            onMouseUp={(event) => { setUnixTimestamp(event.target.valueAsNumber) }}
+            onTouchEnd={(event) => { setUnixTimestamp(event.target.valueAsNumber) }}
+            onKeyUp={(event) => { setUnixTimestamp(event.target.valueAsNumber) }}
             aria-label="time"
           />
           <p>{date.toString()}</p>
@@ -39,6 +41,11 @@ const TimeSlider = () => {
       </div>
     </div>
   )
+}
+
+TimeSlider.propTypes = {
+  date: PropTypes.instanceOf(Date).isRequired,
+  setDate: PropTypes.func.isRequired,
 }
 
 export default TimeSlider

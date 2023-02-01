@@ -29,7 +29,7 @@ jobs:
       - name: Install Browserstack CLI
         run: npm install -g browserstack-cypress-cli
       - name: Build
-        run: yarn build:lighthouse
+        run: npm run build:lighthouse
       - name: Start web server
         run: npx http-server ./dist -p 1234 --cors &
       - name: Run Browserstack

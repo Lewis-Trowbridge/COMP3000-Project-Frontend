@@ -24,7 +24,7 @@ describe('<TimeSlider/>', () => {
     const { findByText, findByRole } = render(<TimeSlider />)
 
     const timeOutput = await findByText(currentTime.toString())
-    const slider = await findByRole('slider', { name: '' })
+    const slider = await findByRole('slider', { name: 'time' })
     expect(slider).toHaveValue(currentTime.getTime().toString())
 
     fireEvent.change(slider, { target: { value: oneDayLater.getTime() } })

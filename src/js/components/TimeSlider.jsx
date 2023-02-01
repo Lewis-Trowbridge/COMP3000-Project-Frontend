@@ -21,7 +21,7 @@ const TimeSlider = () => {
             max={upperBound}
             value={unixTimestamp}
             onChange={(event) => { setUnixTimestamp(event.target.valueAsNumber) }}
-            name="time"
+            aria-label="time"
           />
           <p>{date.toString()}</p>
         </div>

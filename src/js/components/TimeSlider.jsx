@@ -25,7 +25,7 @@ const TimeSlider = () => {
   return (
     <div ref={ref} className={LEAFLET_POSITION_CLASSES.bottomleft}>
       <div className="leaflet-control leaflet-bar">
-        <div style={{ backgroundColor: 'white', display: 'flex' }}>
+        <div className="slider">
           <input
             type="range"
             min={TIME_VALUES.JAN_1_1990_UNIX_TIMESTAMP}

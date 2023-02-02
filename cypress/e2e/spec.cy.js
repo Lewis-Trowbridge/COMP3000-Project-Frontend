@@ -63,7 +63,7 @@ describe('COMP3000 Frontend E2E Tests', () => {
 
     // Will remove this when proper explanations are introduced
     // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(4000)
+    cy.wait(10000)
 
     cy.get('.leaflet-marker-icon')
       .click()

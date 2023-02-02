@@ -1,44 +1,10 @@
-import { Marker, Popup, useMapEvents } from 'react-leaflet'
-import { useState } from 'react'
-import PropTypes from 'prop-types'
-import useBackend from '../utils/useBackend'
+import { Marker, Popup } from 'react-leaflet'
+import { useContext } from 'react'
 import Reading from './Reading'
+import ReadingContext from '../utils/ReadingContext'
 
-const Stations = ({ date }) => {
-  const [bounds, setBounds] = useState({})
-  const map = useMapEvents({
-    load: () => {
-      const mapBounds = map.getBounds()
-      setBounds({
-        bottomLeftX: mapBounds.getSouthWest().lat,
-        bottomLeftY: mapBounds.getSouthWest().lng,
-        topRightX: mapBounds.getNorthEast().lat,
-        topRightY: mapBounds.getNorthEast().lng,
-      })
-    },
-    moveend: () => {
-      const mapBounds = map.getBounds()
-      setBounds({
-        bottomLeftX: mapBounds.getSouthWest().lat,
-        bottomLeftY: mapBounds.getSouthWest().lng,
-        topRightX: mapBounds.getNorthEast().lat,
-        topRightY: mapBounds.getNorthEast().lng,
-      })
-    },
-  })
-
-  const sameDay = (newDate) => {
-    const now = new Date()
-    return newDate.getUTCDate() === now.getUTCDate()
-          && newDate.getUTCMonth() === now.getUTCMonth()
-          && newDate.getUTCFullYear() === now.getUTCFullYear()
-  }
-
-  const { data } = useBackend({
-    bbox: bounds,
-    timestamp: sameDay(date) ? null : date.toISOString(),
-  })
-
+const Stations = () => {
+  const { data } = useContext(ReadingContext)
   return (
     <div>
       {data.map((reading) => (
@@ -55,10 +21,6 @@ const Stations = ({ date }) => {
       ))}
     </div>
   )
-}
-
-Stations.propTypes = {
-  date: PropTypes.instanceOf(Date).isRequired,
 }
 
 export default Stations

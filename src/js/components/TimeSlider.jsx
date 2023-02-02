@@ -1,11 +1,13 @@
 import L from 'leaflet'
 import {
   useRef, useMemo, useEffect, useState,
+  useContext,
 } from 'react'
-import PropTypes from 'prop-types'
 import { LEAFLET_POSITION_CLASSES, TIME_VALUES } from '../constants'
+import ReadingContext from '../utils/ReadingContext'
 
-const TimeSlider = ({ date, setDate }) => {
+const TimeSlider = () => {
+  const { date, setDate } = useContext(ReadingContext)
   const ref = useRef(null)
 
   useEffect(() => {
@@ -42,11 +44,6 @@ const TimeSlider = ({ date, setDate }) => {
       </div>
     </div>
   )
-}
-
-TimeSlider.propTypes = {
-  date: PropTypes.instanceOf(Date).isRequired,
-  setDate: PropTypes.func.isRequired,
 }
 
 export default TimeSlider

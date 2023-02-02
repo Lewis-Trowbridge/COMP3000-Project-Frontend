@@ -30,6 +30,7 @@ const TimeSlider = ({ date, setDate }) => {
             type="range"
             min={TIME_VALUES.JAN_1_1990_UNIX_TIMESTAMP}
             max={upperBound}
+            step={TIME_VALUES.ONE_HOUR_IN_MS}
             defaultValue={unixTimestamp}
             onMouseUp={(event) => { setUnixTimestamp(event.target.valueAsNumber) }}
             onTouchEnd={(event) => { setUnixTimestamp(event.target.valueAsNumber) }}

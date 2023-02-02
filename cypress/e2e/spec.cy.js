@@ -59,7 +59,7 @@ describe('COMP3000 Frontend E2E Tests', () => {
     moveMap(200, 0)
     cy.get('input[aria-label=time]')
       .invoke('val', FirstJan.getTime())
-      .trigger('mouseup')
+      .trigger('mouseup', { force: true })
 
     cy.get('.leaflet-marker-icon')
       .click()

@@ -64,6 +64,10 @@ describe('COMP3000 Frontend E2E Tests', () => {
     cy.get('.leaflet-marker-icon')
       .click()
 
+    // Will remove this when proper explanations are introduced
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(4000)
+
     cy.get('.leaflet-popup-content')
       .should('be.visible')
       .and('contain.text', 'London Honor Oak Park')

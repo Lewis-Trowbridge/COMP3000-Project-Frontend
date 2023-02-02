@@ -1,9 +1,10 @@
 import { Marker, Popup, useMapEvents } from 'react-leaflet'
 import { useState } from 'react'
+import PropTypes from 'prop-types'
 import useBackend from '../utils/useBackend'
 import Reading from './Reading'
 
-const Stations = () => {
+const Stations = ({ date }) => {
   const [bounds, setBounds] = useState({})
   const map = useMapEvents({
     load: () => {
@@ -26,7 +27,17 @@ const Stations = () => {
     },
   })
 
-  const { data } = useBackend({ bbox: bounds })
+  const sameDay = (newDate) => {
+    const now = new Date()
+    return newDate.getUTCDate() === now.getUTCDate()
+          && newDate.getUTCMonth() === now.getUTCMonth()
+          && newDate.getUTCFullYear() === now.getUTCFullYear()
+  }
+
+  const { data } = useBackend({
+    bbox: bounds,
+    timestamp: sameDay(date) ? null : date.toISOString(),
+  })
 
   return (
     <div>
@@ -44,6 +55,10 @@ const Stations = () => {
       ))}
     </div>
   )
+}
+
+Stations.propTypes = {
+  date: PropTypes.instanceOf(Date).isRequired,
 }
 
 export default Stations

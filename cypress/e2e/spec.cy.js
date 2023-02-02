@@ -61,12 +61,12 @@ describe('COMP3000 Frontend E2E Tests', () => {
       .invoke('val', FirstJan.getTime())
       .trigger('mouseup', { force: true })
 
-    cy.get('.leaflet-marker-icon')
-      .click()
-
     // Will remove this when proper explanations are introduced
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(4000)
+
+    cy.get('.leaflet-marker-icon')
+      .click()
 
     cy.get('.leaflet-popup-content')
       .should('be.visible')

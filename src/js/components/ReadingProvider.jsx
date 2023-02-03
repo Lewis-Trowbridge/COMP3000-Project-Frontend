@@ -5,6 +5,7 @@ import ReadingContext from '../utils/ReadingContext'
 import useBackend from '../utils/useBackend'
 
 const ReadingProvider = ({ children }) => {
+  const [selected, setSelected] = useState()
   const [date, setDate] = useState(new Date())
   const [bounds, setBounds] = useState({})
   const map = useMapEvents({
@@ -42,7 +43,9 @@ const ReadingProvider = ({ children }) => {
 
   return (
     <ReadingContext.Provider
-      value={useMemo(() => ({ data, date, setDate }), [data, date, setDate])}
+      value={useMemo(() => ({
+        data, date, selected, setDate, setSelected,
+      }), [data, date, selected, setDate, setSelected])}
     >
       {children}
     </ReadingContext.Provider>

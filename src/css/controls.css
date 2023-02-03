@@ -3,6 +3,27 @@
     display: flex;
 }
 
+.info-panel-box {
+    height: 90vh;
+    width: 15vw;
+    justify-content: center;
+    align-items: center;
+}
+
+.info-panel-content {
+    margin: 3vh;
+}
+
+.info-text {
+    color: #222222;
+    font-size: x-large;
+}
+
+.no-info-text {
+    color: #666666;
+    font-size: x-large;
+}
+
 .time-slider {
     margin-bottom: 2vh;
 }

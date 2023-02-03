@@ -16,9 +16,12 @@ const TIME_VALUES = {
   THREE_YEARS_IN_MS: 94670778000,
 }
 
+const OPENSTREETMAPS_COPYRIGHT = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+
 export {
   // eslint-disable-next-line import/prefer-default-export
   URLS,
   LEAFLET_POSITION_CLASSES,
   TIME_VALUES,
+  OPENSTREETMAPS_COPYRIGHT,
 }

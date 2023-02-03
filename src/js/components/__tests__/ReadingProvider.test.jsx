@@ -85,7 +85,9 @@ describe('<ReadingProvider/>', () => {
 
     const expected = new Date()
 
-    setDate(expected)
+    await act(() => {
+      setDate(expected)
+    })
 
     await waitFor(() => expect(date).toEqual(expected))
   })

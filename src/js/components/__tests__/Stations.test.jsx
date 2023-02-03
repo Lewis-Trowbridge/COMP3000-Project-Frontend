@@ -1,75 +1,81 @@
-import { render } from '@testing-library/react'
+import { render, waitFor } from '@testing-library/react'
 import { useMemo } from 'react'
+import userEvent from '@testing-library/user-event'
 import Stations from '../Stations'
 import { BACKEND_RESPONSES } from '../../testConstants'
 import ReadingContext from '../../utils/ReadingContext'
 
+const mockSetSelected = jest.fn()
+
 // eslint-disable-next-line react/prop-types
 const MockProvider = ({ children, data }) => (
-  <ReadingContext.Provider value={useMemo(() => ({ data }), [data])}>
+  <ReadingContext.Provider value={useMemo(() => ({
+    data, setSelected: mockSetSelected,
+  }), [data])}
+  >
     {children}
   </ReadingContext.Provider>
 )
 
 jest.mock('react-leaflet', () => ({
   /* eslint-disable react/prop-types */
-  Marker: ({ children, position }) => (
-    <div>
-      <p>{`${position.lat}, ${position.lng}`}</p>
-      {children}
-    </div>
+  Marker: ({ eventHandlers }) => (
+    // eslint-disable-next-line jsx-a11y/control-has-associated-label
+    <button type="button" onClick={eventHandlers.click} />
   ),
-  Popup: ({ children }) => (<div>{children}</div>),
 }))
 /* eslint-enable react/prop-types */
 
 describe('<Stations/>', () => {
   it('renders a set of markers from a set of return data', async () => {
-    const { findByText } = render(
+    const { findByRole } = render(
       <MockProvider data={[BACKEND_RESPONSES.VALID]}>
         <Stations />
       </MockProvider>,
     )
-    const expectedText = `${BACKEND_RESPONSES.VALID.station.coordinates.lat}, ${BACKEND_RESPONSES.VALID.station.coordinates.lng}`
-    expect(await findByText(expectedText)).toBeInTheDocument()
+
+    expect(await findByRole('button')).toBeInTheDocument()
   })
 
   it('does not render markers when an empty list is returned', async () => {
-    const { queryByText } = render(
+    const { queryByRole } = render(
       <MockProvider data={[]}>
         <Stations />
       </MockProvider>,
     )
-    const expectedText = `${BACKEND_RESPONSES.VALID.station.coordinates.lat}, ${BACKEND_RESPONSES.VALID.station.coordinates.lng}`
-    expect(queryByText(expectedText)).not.toBeInTheDocument()
+
+    expect(queryByRole('button')).not.toBeInTheDocument()
   })
 
   it('rerenders when data changes', async () => {
-    const { queryByText, findByText, rerender } = render(
+    const { queryByRole, findByRole, rerender } = render(
       <MockProvider data={[]}>
         <Stations />
       </MockProvider>,
     )
 
-    const expectedText = `${BACKEND_RESPONSES.VALID.station.coordinates.lat}, ${BACKEND_RESPONSES.VALID.station.coordinates.lng}`
-
-    expect(queryByText(expectedText)).not.toBeInTheDocument()
+    expect(queryByRole('button')).not.toBeInTheDocument()
 
     rerender(
       <MockProvider data={[BACKEND_RESPONSES.VALID]}>
         <Stations />
       </MockProvider>,
     )
-    expect(await findByText(expectedText)).toBeInTheDocument()
+    expect(await findByRole('button')).toBeInTheDocument()
   })
 
-  it('renders a popup with the given information', async () => {
-    const { findByText } = render(
+  it('calls setSelected with the given data when clicking the relevant marker', async () => {
+    const user = userEvent.setup()
+    const { findByRole } = render(
       <MockProvider data={[BACKEND_RESPONSES.VALID]}>
         <Stations />
       </MockProvider>,
     )
 
-    expect(await findByText(`${BACKEND_RESPONSES.VALID.value} ${BACKEND_RESPONSES.VALID.unit}`)).toBeInTheDocument()
+    const button = await findByRole('button')
+    await user.click(button)
+
+    await waitFor(() => expect(mockSetSelected).toHaveBeenCalledTimes(1))
+    expect(mockSetSelected).toHaveBeenNthCalledWith(1, BACKEND_RESPONSES.VALID)
   })
 })

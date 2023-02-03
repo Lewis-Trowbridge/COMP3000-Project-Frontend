@@ -1,0 +1,13 @@
+.control-box {
+    background-color: whitesmoke;
+    display: flex;
+}
+
+.time-slider {
+    margin-bottom: 2vh;
+}
+
+.info-panel {
+    margin-right: 1vw;
+    margin-top: 1vh;
+}

@@ -2,6 +2,7 @@ import { MapContainer, TileLayer } from 'react-leaflet'
 import ReadingProvider from './ReadingProvider'
 import Stations from './Stations'
 import TimeSlider from './TimeSlider'
+import InfoPanel from './InfoPanel'
 
 const Map = () => (
   <MapContainer center={[51.505, -0.09]} zoom={13}>
@@ -11,6 +12,7 @@ const Map = () => (
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
+      <InfoPanel />
       <TimeSlider />
     </ReadingProvider>
   </MapContainer>

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useMapEvents } from 'react-leaflet'
 import PropTypes from 'prop-types'
 import ReadingContext from '../utils/ReadingContext'
@@ -40,6 +40,11 @@ const ReadingProvider = ({ children }) => {
     bbox: bounds,
     timestamp: sameDay(date) ? null : date.toISOString(),
   })
+
+  useEffect(() => {
+    const updated = data.find((item) => item.station.name === selected?.station.name)
+    setSelected(updated)
+  }, [selected, setSelected, data])
 
   return (
     <ReadingContext.Provider

@@ -1,22 +1,38 @@
 .control-box {
     background-color: whitesmoke;
-    display: flex;
 }
 
 .info-panel-box {
-    height: 90vh;
-    width: 15vw;
     justify-content: center;
     align-items: center;
 }
 
-.info-panel-content {
+.flexbox {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
     margin: 3vh;
 }
 
-.info-text {
+.info-panel-content {
+    display: flex;
+}
+
+.info-header {
     color: #222222;
-    font-size: x-large;
+    font-size: 2rem;
+}
+
+.info-explanation-header {
+    font-size: 1.25rem;
+    margin: 0;
+}
+
+.info-explanation-container {
+    hyphens: manual;
+    word-wrap: break-word;
+    width: 30vw;
 }
 
 .no-info-text {
@@ -31,4 +47,5 @@
 .info-panel {
     margin-right: 1vw;
     margin-top: 1vh;
+    width: 40vw;
 }

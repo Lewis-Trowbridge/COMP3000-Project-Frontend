@@ -1,5 +1,8 @@
 import { useContext, useEffect } from 'react'
 import { useMap } from 'react-leaflet'
+import {
+  VictoryAxis, VictoryBar, VictoryChart, VictoryLine, VictoryLabel,
+} from 'victory'
 import ReadingContext from '../utils/ReadingContext'
 import { LEAFLET_POSITION_CLASSES, OPENSTREETMAPS_COPYRIGHT } from '../constants'
 
@@ -26,7 +29,35 @@ const InfoPanel = () => {
           <div className="info-panel-content">
             {
               selected
-                ? (<p className="info-text">{selected.station.name}</p>)
+                ? (
+                  <div className="flexbox">
+                    <h1 className="info-header">{selected.station.name}</h1>
+                    <VictoryChart>
+                      <VictoryAxis dependentAxis label="PM2.5 (µg/m3)" />
+                      <VictoryAxis />
+                      <VictoryLine
+                        y={() => 10}
+                        interpolation="linear"
+                        labels={['WHO PM2.5 recommended limit']}
+                        labelComponent={<VictoryLabel renderInPortal dx={175} dy={-20} />}
+                      />
+                      <VictoryBar
+                        animate={{ duration: 250, easing: 'quad' }}
+                        alignment="middle"
+                        barWidth={50}
+                        style={{ data: { fill: '#8EEF11' } }}
+                        data={[{ x: ' ', y: selected.value }]}
+                        labels={[selected.value]}
+                      />
+                    </VictoryChart>
+                    <h2 className="info-explanation-header">What does this mean?</h2>
+                    <div className="info-explanation-container">
+                      <p>Placeholder</p>
+
+                    </div>
+                    <cite>World Health Organisation</cite>
+                  </div>
+                )
                 : (<p className="no-info-text">No info selected. Please try clicking on one of the markers!</p>)
             }
           </div>

@@ -17,6 +17,7 @@ const TIME_VALUES = {
 }
 
 const OPENSTREETMAPS_COPYRIGHT = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+const WHO_PM25_LIMIT = 5
 
 export {
   // eslint-disable-next-line import/prefer-default-export
@@ -24,4 +25,5 @@ export {
   LEAFLET_POSITION_CLASSES,
   TIME_VALUES,
   OPENSTREETMAPS_COPYRIGHT,
+  WHO_PM25_LIMIT,
 }

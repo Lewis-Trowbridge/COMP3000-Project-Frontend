@@ -4,7 +4,7 @@ import {
   VictoryAxis, VictoryBar, VictoryChart, VictoryLine, VictoryLabel,
 } from 'victory'
 import ReadingContext from '../utils/ReadingContext'
-import { LEAFLET_POSITION_CLASSES, OPENSTREETMAPS_COPYRIGHT } from '../constants'
+import { LEAFLET_POSITION_CLASSES, OPENSTREETMAPS_COPYRIGHT, WHO_PM25_LIMIT } from '../constants'
 
 const InfoPanel = () => {
   const { selected } = useContext(ReadingContext)
@@ -36,7 +36,7 @@ const InfoPanel = () => {
                       <VictoryAxis dependentAxis label="PM2.5 (µg/m3)" />
                       <VictoryAxis />
                       <VictoryLine
-                        y={() => 10}
+                        y={() => WHO_PM25_LIMIT}
                         interpolation="linear"
                         labels={['WHO PM2.5 recommended limit']}
                         labelComponent={<VictoryLabel renderInPortal dx={175} dy={-20} />}
@@ -45,7 +45,7 @@ const InfoPanel = () => {
                         animate={{ duration: 250, easing: 'quad' }}
                         alignment="middle"
                         barWidth={50}
-                        style={{ data: { fill: '#8EEF11' } }}
+                        style={{ data: { fill: selected.value < WHO_PM25_LIMIT ? '#8EEF11' : '#C20633' } }}
                         data={[{ x: ' ', y: selected.value }]}
                         labels={[selected.value]}
                       />

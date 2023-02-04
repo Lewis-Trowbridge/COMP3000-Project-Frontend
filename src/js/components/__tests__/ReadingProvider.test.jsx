@@ -185,8 +185,7 @@ describe('<ReadingProvider/>', () => {
     await waitFor(() => expect(selected).toEqual(updatedData))
   })
 
-  it('sets selected to null if no item is found', async () => {
-    const updatedData = { ...BACKEND_RESPONSES.VALID, value: BACKEND_RESPONSES.VALID.value + 1 }
+  it('sets selected to undefined if no item is found', async () => {
     const newDate = new Date(currentDate)
     newDate.setDate(newDate.getDate() + 1)
 
@@ -202,11 +201,11 @@ describe('<ReadingProvider/>', () => {
     })
     await waitFor(() => expect(selected).toEqual(BACKEND_RESPONSES.VALID))
 
-    useBackend.mockReturnValue({ data: [updatedData] })
+    useBackend.mockReturnValue({ data: [] })
     await act(() => {
       setDate(newDate)
     })
-    await waitFor(() => expect(selected).toBeNull())
+    await waitFor(() => expect(selected).toBeUndefined())
   })
 })
 

@@ -1,13 +1,15 @@
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useMap } from 'react-leaflet'
 import {
   VictoryAxis, VictoryBar, VictoryChart, VictoryLine, VictoryLabel,
 } from 'victory'
+import strftime from 'strftime'
 import ReadingContext from '../utils/ReadingContext'
 import { LEAFLET_POSITION_CLASSES, OPENSTREETMAPS_COPYRIGHT, WHO_PM25_LIMIT } from '../constants'
 
 const InfoPanel = () => {
   const { selected } = useContext(ReadingContext)
+  const [exceedsLimit, setExceedsLimit] = useState(false)
   const { attributionControl } = useMap()
 
   useEffect(() => {
@@ -19,6 +21,7 @@ const InfoPanel = () => {
         attributionControl.removeAttribution(existingAttribution)
       })
       attributionControl.addAttribution(selected.licenseInfo)
+      setExceedsLimit(selected.value > WHO_PM25_LIMIT)
     }
   }, [selected, attributionControl])
 
@@ -45,17 +48,48 @@ const InfoPanel = () => {
                         animate={{ duration: 250, easing: 'quad' }}
                         alignment="middle"
                         barWidth={50}
-                        style={{ data: { fill: selected.value < WHO_PM25_LIMIT ? '#8EEF11' : '#C20633' } }}
+                        style={{ data: { fill: exceedsLimit ? '#C20633' : '#8EEF11' } }}
                         data={[{ x: ' ', y: selected.value }]}
                         labels={[selected.value]}
                       />
                     </VictoryChart>
                     <h2 className="info-explanation-header">What does this mean?</h2>
                     <div className="info-explanation-container">
-                      <p>Placeholder</p>
-
+                      <p>
+                        PM
+                        <sub>2.5</sub>
+                        {' '}
+                        describes particles in the air you breathe that are smaller than
+                        2.5 nanograms. PM2.5 particles are invisible to the naked eye
+                        and small enough to pass through the lungs, into the bloodstream,
+                        and into your organs.
+                      </p>
+                      <p>
+                        Particulate matter impacts your health. It can reduce life expectancy and
+                        lead to asthma, COPD, coronary heart disease, stroke, and lung cancer to
+                        name a few.
+                      </p>
+                      <p>
+                        At
+                        {' '}
+                        {strftime('%I%p', new Date(selected.timestamp))}
+                        {' '}
+                        on the
+                        {' '}
+                        {strftime('%o %B %Y', new Date(selected.timestamp))}
+                        , the pollution was
+                        {' '}
+                        { Math.abs(selected.value - WHO_PM25_LIMIT) }
+                        {' '}
+                        { exceedsLimit ? 'above ' : 'below ' }
+                        the recommended WHO limit.
+                      </p>
                     </div>
-                    <cite>World Health Organisation</cite>
+                    <cite>
+                      World Health Organisation,
+                      Taskforce for Lung Health,
+                      Imperial College London
+                    </cite>
                   </div>
                 )
                 : (<p className="no-info-text">No info selected. Please try clicking on one of the markers!</p>)

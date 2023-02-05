@@ -63,7 +63,7 @@ describe('<InfoPanel />', () => {
         <InfoPanel />
       </MockProvider>,
     )
-    const expectedText = `At ${strftime('%I%p', new Date(BACKEND_RESPONSES.VALID.timestamp))} on the ${strftime('%o %B %Y', new Date(BACKEND_RESPONSES.VALID.timestamp))}, the pollution was ${Math.abs(BACKEND_RESPONSES.VALID.value - WHO_PM25_LIMIT)} below the recommended WHO limit.`
+    const expectedText = `At ${strftime('%I%p', new Date(BACKEND_RESPONSES.VALID.timestamp))} on the ${strftime('%o %B %Y', new Date(BACKEND_RESPONSES.VALID.timestamp))}, the pollution was around ${Math.abs(BACKEND_RESPONSES.VALID.value - WHO_PM25_LIMIT)} below the recommended WHO limit.`
     expect(await findByText(expectedText)).toBeInTheDocument()
   })
 })

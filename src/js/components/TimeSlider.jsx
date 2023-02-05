@@ -28,18 +28,22 @@ const TimeSlider = () => {
     <div ref={ref} className={`${LEAFLET_POSITION_CLASSES.bottomleft} time-slider`}>
       <div className="leaflet-control leaflet-bar">
         <div className="control-box">
-          <input
-            type="range"
-            min={TIME_VALUES.JAN_1_1990_UNIX_TIMESTAMP}
-            max={upperBound}
-            step={TIME_VALUES.ONE_HOUR_IN_MS}
-            defaultValue={unixTimestamp}
-            onMouseUp={(event) => { setUnixTimestamp(event.target.valueAsNumber) }}
-            onTouchEnd={(event) => { setUnixTimestamp(event.target.valueAsNumber) }}
-            onKeyUp={(event) => { setUnixTimestamp(event.target.valueAsNumber) }}
-            aria-label="time"
-          />
-          <p>{date.toString()}</p>
+          <div className="flex-container">
+            <div className="flexbox">
+              <input
+                type="range"
+                min={TIME_VALUES.JAN_1_1990_UNIX_TIMESTAMP}
+                max={upperBound}
+                step={TIME_VALUES.ONE_HOUR_IN_MS}
+                defaultValue={unixTimestamp}
+                onMouseUp={(event) => { setUnixTimestamp(event.target.valueAsNumber) }}
+                onTouchEnd={(event) => { setUnixTimestamp(event.target.valueAsNumber) }}
+                onKeyUp={(event) => { setUnixTimestamp(event.target.valueAsNumber) }}
+                aria-label="time"
+              />
+              <p className="time-display-text">{date.toString()}</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

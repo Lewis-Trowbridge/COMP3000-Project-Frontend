@@ -15,7 +15,7 @@
     margin: 1vh 3vh 3vh;
 }
 
-.info-panel-content {
+.flex-container {
     display: flex;
 }
 
@@ -39,6 +39,10 @@
 .no-info-text {
     color: #666666;
     font-size: x-large;
+}
+
+.time-display-text {
+    color: #222222;
 }
 
 .time-slider {

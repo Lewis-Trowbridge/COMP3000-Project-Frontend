@@ -29,7 +29,7 @@ const InfoPanel = () => {
     <div className={`${LEAFLET_POSITION_CLASSES.topright} info-panel`}>
       <div className="leaflet-bar leaflet-control">
         <div className="control-box info-panel-box">
-          <div className="info-panel-content">
+          <div className="flex-container">
             {
               selected
                 ? (
@@ -77,9 +77,9 @@ const InfoPanel = () => {
                         on the
                         {' '}
                         {strftime('%o %B %Y', new Date(selected.timestamp))}
-                        , the pollution was
+                        , the pollution was around
                         {' '}
-                        { Math.abs(selected.value - WHO_PM25_LIMIT) }
+                        { Math.round(Math.abs(selected.value - WHO_PM25_LIMIT)) }
                         {' '}
                         { exceedsLimit ? 'above ' : 'below ' }
                         the recommended WHO limit.

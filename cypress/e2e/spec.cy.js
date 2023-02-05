@@ -1,3 +1,5 @@
+import strftime from 'strftime'
+
 describe('COMP3000 Frontend E2E Tests', () => {
   beforeEach(() => {
     cy.visit('http://localhost:1234')
@@ -59,6 +61,8 @@ describe('COMP3000 Frontend E2E Tests', () => {
 
   it('updates the popup text when the time slider is changed', () => {
     const FirstJan = new Date(1640995200000)
+    const dynamicTimestring = `${strftime('%I%p', FirstJan)} on the ${strftime('%o %B %Y', FirstJan)}`
+
     moveMap(200, 0)
 
     cy.get('.leaflet-marker-icon')
@@ -67,9 +71,8 @@ describe('COMP3000 Frontend E2E Tests', () => {
     cy.get('input[aria-label=time]')
       .and((input) => { input.val(FirstJan.getTime()) })
       .trigger('mouseup', { force: true })
-
     cy.get('.info-explanation-container > p:nth-child(3)')
       .should('be.visible')
-      .and('contain.text', 'At 12AM on the 1st January 2022, the pollution was around 4 above the recommended WHO limit.')
+      .and('contain.text', `At ${dynamicTimestring}, the pollution was around 4 above the recommended WHO limit.`)
   })
 })

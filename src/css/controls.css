@@ -1,0 +1,56 @@
+.control-box {
+    background-color: whitesmoke;
+}
+
+.info-panel-box {
+    justify-content: center;
+    align-items: center;
+}
+
+.flexbox {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 1vh 3vh 3vh;
+}
+
+.flex-container {
+    display: flex;
+}
+
+.info-header {
+    color: #222222;
+    font-size: 2rem;
+}
+
+.info-explanation-header {
+    font-size: 1.25rem;
+    margin: 0;
+}
+
+.info-explanation-container {
+    hyphens: manual;
+    word-wrap: break-word;
+    width: 30vw;
+    font-size: 0.85rem;
+}
+
+.no-info-text {
+    color: #666666;
+    font-size: x-large;
+}
+
+.time-display-text {
+    color: #222222;
+}
+
+.time-slider {
+    margin-bottom: 2vh;
+}
+
+.info-panel {
+    margin-right: 1vw;
+    margin-top: 1vh;
+    width: 40vw;
+}

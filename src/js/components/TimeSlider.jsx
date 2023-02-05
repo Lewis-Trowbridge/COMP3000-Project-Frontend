@@ -1,11 +1,13 @@
 import L from 'leaflet'
 import {
   useRef, useMemo, useEffect, useState,
+  useContext,
 } from 'react'
-import PropTypes from 'prop-types'
 import { LEAFLET_POSITION_CLASSES, TIME_VALUES } from '../constants'
+import ReadingContext from '../utils/ReadingContext'
 
-const TimeSlider = ({ date, setDate }) => {
+const TimeSlider = () => {
+  const { date, setDate } = useContext(ReadingContext)
   const ref = useRef(null)
 
   useEffect(() => {
@@ -16,37 +18,36 @@ const TimeSlider = ({ date, setDate }) => {
 
   const [now] = useState(new Date())
   const upperBound = useMemo(() => (now.getTime() + TIME_VALUES.THREE_YEARS_IN_MS), [now])
-  const [unixTimestamp, setUnixTimestamp] = useState(Math.floor(Date.now()))
+  const [unixTimestamp, setUnixTimestamp] = useState(Math.floor(now.getTime()))
 
   useEffect(() => {
     setDate(new Date(unixTimestamp))
   }, [setDate, unixTimestamp])
 
   return (
-    <div ref={ref} className={LEAFLET_POSITION_CLASSES.bottomleft}>
+    <div ref={ref} className={`${LEAFLET_POSITION_CLASSES.bottomleft} time-slider`}>
       <div className="leaflet-control leaflet-bar">
-        <div className="slider">
-          <input
-            type="range"
-            min={TIME_VALUES.JAN_1_1990_UNIX_TIMESTAMP}
-            max={upperBound}
-            step={TIME_VALUES.ONE_HOUR_IN_MS}
-            defaultValue={unixTimestamp}
-            onMouseUp={(event) => { setUnixTimestamp(event.target.valueAsNumber) }}
-            onTouchEnd={(event) => { setUnixTimestamp(event.target.valueAsNumber) }}
-            onKeyUp={(event) => { setUnixTimestamp(event.target.valueAsNumber) }}
-            aria-label="time"
-          />
-          <p>{date.toString()}</p>
+        <div className="control-box">
+          <div className="flex-container">
+            <div className="flexbox">
+              <input
+                type="range"
+                min={TIME_VALUES.JAN_1_1990_UNIX_TIMESTAMP}
+                max={upperBound}
+                step={TIME_VALUES.ONE_HOUR_IN_MS}
+                defaultValue={unixTimestamp}
+                onMouseUp={(event) => { setUnixTimestamp(event.target.valueAsNumber) }}
+                onTouchEnd={(event) => { setUnixTimestamp(event.target.valueAsNumber) }}
+                onKeyUp={(event) => { setUnixTimestamp(event.target.valueAsNumber) }}
+                aria-label="time"
+              />
+              <p className="time-display-text">{date.toString()}</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   )
-}
-
-TimeSlider.propTypes = {
-  date: PropTypes.instanceOf(Date).isRequired,
-  setDate: PropTypes.func.isRequired,
 }
 
 export default TimeSlider

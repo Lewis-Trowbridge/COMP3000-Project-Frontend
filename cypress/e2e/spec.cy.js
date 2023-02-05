@@ -1,3 +1,5 @@
+import strftime from 'strftime'
+
 describe('COMP3000 Frontend E2E Tests', () => {
   beforeEach(() => {
     cy.visit('http://localhost:1234')
@@ -29,9 +31,12 @@ describe('COMP3000 Frontend E2E Tests', () => {
     cy.get('.leaflet-marker-icon')
       .click()
 
-    cy.get('.leaflet-popup-content')
+    cy.get('.info-header')
       .should('be.visible')
       .and('contain.text', 'London Honor Oak Park')
+
+    cy.get('.VictoryContainer')
+      .should('be.visible')
   })
 
   it('displays the attribution message', () => {
@@ -50,27 +55,24 @@ describe('COMP3000 Frontend E2E Tests', () => {
       .invoke('val', FirstJan.getTime())
       .trigger('mouseup')
 
-    cy.get('p')
+    cy.get('p[class=time-display-text]')
       .should('have.text', FirstJan.toString())
   })
 
   it('updates the popup text when the time slider is changed', () => {
     const FirstJan = new Date(1640995200000)
-    moveMap(200, 0)
-    cy.get('input[aria-label=time]')
-      .invoke('val', FirstJan.getTime())
-      .trigger('mouseup', { force: true })
+    const dynamicTimestring = `${strftime('%I%p', FirstJan)} on the ${strftime('%o %B %Y', FirstJan)}`
 
-    // Will remove this when proper explanations are introduced
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(10000)
+    moveMap(200, 0)
 
     cy.get('.leaflet-marker-icon')
       .click()
 
-    cy.get('.leaflet-popup-content')
+    cy.get('input[aria-label=time]')
+      .and((input) => { input.val(FirstJan.getTime()) })
+      .trigger('mouseup', { force: true })
+    cy.get('.info-explanation-container > p:nth-child(3)')
       .should('be.visible')
-      .and('contain.text', 'London Honor Oak Park')
-      .and('contain.text', FirstJan.toUTCString())
+      .and('contain.text', `At ${dynamicTimestring}, the pollution was around 4 above the recommended WHO limit.`)
   })
 })

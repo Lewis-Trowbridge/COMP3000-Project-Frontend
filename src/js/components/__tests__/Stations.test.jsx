@@ -1,90 +1,81 @@
-import { act, render } from '@testing-library/react'
-import { useMapEvents } from 'react-leaflet'
+import { render, waitFor } from '@testing-library/react'
+import { useMemo } from 'react'
+import userEvent from '@testing-library/user-event'
 import Stations from '../Stations'
 import { BACKEND_RESPONSES } from '../../testConstants'
-import useBackend from '../../utils/useBackend'
+import ReadingContext from '../../utils/ReadingContext'
 
-const validDate = new Date()
+const mockSetSelected = jest.fn()
+
+// eslint-disable-next-line react/prop-types
+const MockProvider = ({ children, data }) => (
+  <ReadingContext.Provider value={useMemo(() => ({
+    data, setSelected: mockSetSelected,
+  }), [data])}
+  >
+    {children}
+  </ReadingContext.Provider>
+)
 
 jest.mock('react-leaflet', () => ({
   /* eslint-disable react/prop-types */
-  Marker: ({ children, position }) => (
-    <div>
-      <p>{`${position.lat}, ${position.lng}`}</p>
-      {children}
-    </div>
+  Marker: ({ eventHandlers }) => (
+    // eslint-disable-next-line jsx-a11y/control-has-associated-label
+    <button type="button" onClick={eventHandlers.click} />
   ),
-  Popup: ({ children }) => (<div>{children}</div>),
-  useMapEvents: jest.fn().mockReturnValue({
-    getBounds: jest.fn().mockReturnValue({
-      getNorthEast: () => ({
-        lat: 0,
-        lng: 0,
-      }),
-      getSouthWest: () => ({
-        lat: 0,
-        lng: 0,
-      }),
-    }),
-  }),
 }))
 /* eslint-enable react/prop-types */
 
-jest.mock('../../utils/useBackend', () => ({
-  __esModule: true,
-  default: jest.fn(),
-}))
-
 describe('<Stations/>', () => {
   it('renders a set of markers from a set of return data', async () => {
-    useBackend.mockReturnValueOnce({ data: [BACKEND_RESPONSES.VALID] })
+    const { findByRole } = render(
+      <MockProvider data={[BACKEND_RESPONSES.VALID]}>
+        <Stations />
+      </MockProvider>,
+    )
 
-    const { findByText } = render(<Stations date={validDate} />)
-    const expectedText = `${BACKEND_RESPONSES.VALID.station.coordinates.lat}, ${BACKEND_RESPONSES.VALID.station.coordinates.lng}`
-    expect(await findByText(expectedText)).toBeInTheDocument()
+    expect(await findByRole('button')).toBeInTheDocument()
   })
 
   it('does not render markers when an empty list is returned', async () => {
-    useBackend.mockReturnValueOnce({ data: [] })
+    const { queryByRole } = render(
+      <MockProvider data={[]}>
+        <Stations />
+      </MockProvider>,
+    )
 
-    const { queryByText } = render(<Stations date={validDate} />)
-    const expectedText = `${BACKEND_RESPONSES.VALID.station.coordinates.lat}, ${BACKEND_RESPONSES.VALID.station.coordinates.lng}`
-    expect(queryByText(expectedText)).not.toBeInTheDocument()
+    expect(queryByRole('button')).not.toBeInTheDocument()
   })
 
-  it('rerenders when the load event fires', async () => {
-    useBackend.mockReturnValueOnce({ data: [] })
-    useBackend.mockReturnValueOnce({ data: [BACKEND_RESPONSES.VALID] })
+  it('rerenders when data changes', async () => {
+    const { queryByRole, findByRole, rerender } = render(
+      <MockProvider data={[]}>
+        <Stations />
+      </MockProvider>,
+    )
 
-    const { queryByText } = render(<Stations date={validDate} />)
+    expect(queryByRole('button')).not.toBeInTheDocument()
 
-    const expectedText = `${BACKEND_RESPONSES.VALID.station.coordinates.lat}, ${BACKEND_RESPONSES.VALID.station.coordinates.lng}`
-    expect(queryByText(expectedText)).not.toBeInTheDocument()
-    act(() => {
-      useMapEvents.mock.lastCall[0].load()
-    })
-    expect(queryByText(expectedText)).toBeInTheDocument()
+    rerender(
+      <MockProvider data={[BACKEND_RESPONSES.VALID]}>
+        <Stations />
+      </MockProvider>,
+    )
+    expect(await findByRole('button')).toBeInTheDocument()
   })
 
-  it('rerenders when the moveend event fires', async () => {
-    useBackend.mockReturnValueOnce({ data: [] })
-    useBackend.mockReturnValueOnce({ data: [BACKEND_RESPONSES.VALID] })
+  it('calls setSelected with the given data when clicking the relevant marker', async () => {
+    const user = userEvent.setup()
+    const { findByRole } = render(
+      <MockProvider data={[BACKEND_RESPONSES.VALID]}>
+        <Stations />
+      </MockProvider>,
+    )
 
-    const { queryByText } = render(<Stations date={validDate} />)
+    const button = await findByRole('button')
+    await user.click(button)
 
-    const expectedText = `${BACKEND_RESPONSES.VALID.station.coordinates.lat}, ${BACKEND_RESPONSES.VALID.station.coordinates.lng}`
-    expect(queryByText(expectedText)).not.toBeInTheDocument()
-    act(() => {
-      useMapEvents.mock.lastCall[0].moveend()
-    })
-    expect(queryByText(expectedText)).toBeInTheDocument()
-  })
-
-  it('renders a popup with the given information', async () => {
-    useBackend.mockReturnValueOnce({ data: [BACKEND_RESPONSES.VALID] })
-
-    const { findByText } = render(<Stations date={validDate} />)
-
-    expect(await findByText(`${BACKEND_RESPONSES.VALID.value} ${BACKEND_RESPONSES.VALID.unit}`)).toBeInTheDocument()
+    await waitFor(() => expect(mockSetSelected).toHaveBeenCalledTimes(1))
+    expect(mockSetSelected).toHaveBeenNthCalledWith(1, BACKEND_RESPONSES.VALID)
   })
 })

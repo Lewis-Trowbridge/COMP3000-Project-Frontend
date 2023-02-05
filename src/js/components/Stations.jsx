@@ -1,64 +1,24 @@
-import { Marker, Popup, useMapEvents } from 'react-leaflet'
-import { useState } from 'react'
-import PropTypes from 'prop-types'
-import useBackend from '../utils/useBackend'
-import Reading from './Reading'
+import { Marker } from 'react-leaflet'
+import { useContext } from 'react'
+import ReadingContext from '../utils/ReadingContext'
 
-const Stations = ({ date }) => {
-  const [bounds, setBounds] = useState({})
-  const map = useMapEvents({
-    load: () => {
-      const mapBounds = map.getBounds()
-      setBounds({
-        bottomLeftX: mapBounds.getSouthWest().lat,
-        bottomLeftY: mapBounds.getSouthWest().lng,
-        topRightX: mapBounds.getNorthEast().lat,
-        topRightY: mapBounds.getNorthEast().lng,
-      })
-    },
-    moveend: () => {
-      const mapBounds = map.getBounds()
-      setBounds({
-        bottomLeftX: mapBounds.getSouthWest().lat,
-        bottomLeftY: mapBounds.getSouthWest().lng,
-        topRightX: mapBounds.getNorthEast().lat,
-        topRightY: mapBounds.getNorthEast().lng,
-      })
-    },
-  })
-
-  const sameDay = (newDate) => {
-    const now = new Date()
-    return newDate.getUTCDate() === now.getUTCDate()
-          && newDate.getUTCMonth() === now.getUTCMonth()
-          && newDate.getUTCFullYear() === now.getUTCFullYear()
-  }
-
-  const { data } = useBackend({
-    bbox: bounds,
-    timestamp: sameDay(date) ? null : date.toISOString(),
-  })
-
+const Stations = () => {
+  const { data, setSelected } = useContext(ReadingContext)
   return (
     <div>
       {data.map((reading) => (
-        <Marker key={reading.station.name} position={reading.station.coordinates}>
-          <Popup attribution={reading.licenseInfo}>
-            <Reading
-              name={reading.station.name}
-              unit={reading.unit}
-              value={reading.value}
-              timestamp={reading.timestamp}
-            />
-          </Popup>
-        </Marker>
+        <Marker
+          key={reading.station.name}
+          position={reading.station.coordinates}
+          eventHandlers={{
+            click: () => {
+              setSelected(reading)
+            },
+          }}
+        />
       ))}
     </div>
   )
-}
-
-Stations.propTypes = {
-  date: PropTypes.instanceOf(Date).isRequired,
 }
 
 export default Stations

@@ -28,7 +28,8 @@
         "exclude": [],
         "parallels": 5,
         "npm_dependencies": {
-            "cypress": "10.8.0"
+            "cypress": "10.8.0",
+            "strftime": "0.10.1"
         },
         "package_config_options": {},
         "headless": true

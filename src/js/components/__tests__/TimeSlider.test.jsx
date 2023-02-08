@@ -34,9 +34,29 @@ describe('<TimeSlider/>', () => {
     expect(timeOutput).toBeInTheDocument()
   })
 
-  it('shows the time when the slider is dragged', async () => {
+  it('shows when dragging the slider without letting go', async () => {
+    const mockSetDate = jest.fn()
     const { findByText, findByRole } = render(
-      <MockProvider date={currentTime} setDate={jest.fn()}>
+      <MockProvider date={currentTime} setDate={mockSetDate}>
+        <TimeSlider />
+      </MockProvider>,
+    )
+
+    const expectedTime = new Date(currentTime.getTime())
+    expectedTime.setDate(expectedTime.getDate() + 1)
+    const timeOutput = await findByText(currentTime.toString())
+    const slider = await findByRole('slider', { name: 'time' })
+
+    fireEvent.change(slider, { target: { value: expectedTime.getTime() } })
+
+    await waitFor(() => expect(timeOutput).toHaveTextContent(expectedTime.toString()))
+    expect(mockSetDate).not.toHaveBeenCalledWith(expectedTime)
+  })
+
+  it('shows the time when the slider is dragged and let go', async () => {
+    const mockSetDate = jest.fn()
+    const { findByText, findByRole } = render(
+      <MockProvider date={currentTime} setDate={mockSetDate}>
         <TimeSlider />
       </MockProvider>,
     )
@@ -45,13 +65,18 @@ describe('<TimeSlider/>', () => {
     const slider = await findByRole('slider', { name: 'time' })
     expect(slider).toHaveValue(currentTime.getTime().toString())
 
-    currentTime.setDate(currentTime.getDate() + 1)
+    const expectedTime = new Date(currentTime.getTime())
+    expectedTime.setDate(expectedTime.getDate() + 1)
 
-    fireEvent.change(slider, { target: { value: currentTime.getTime() } })
+    fireEvent.change(slider, { target: { value: expectedTime.getTime() } })
     fireEvent.mouseUp(slider)
 
-    await waitFor(() => expect(timeOutput).toHaveTextContent(currentTime.toString()))
-    expect(slider).toHaveValue(currentTime.getTime().toString())
+    await waitFor(() => expect(timeOutput).toHaveTextContent(expectedTime.toString()))
+    expect(slider).toHaveValue(expectedTime.getTime().toString())
+
+    expect(mockSetDate).toHaveBeenCalledTimes(2)
+    expect(mockSetDate).toHaveBeenNthCalledWith(1, currentTime)
+    expect(mockSetDate).toHaveBeenNthCalledWith(2, expectedTime)
   })
 })
 

@@ -2,6 +2,7 @@
 
 const BACKEND_RESPONSES = {
   VALID: {
+    type: 'Recorded',
     value: 3,
     unit: 'PM2.5',
     timestamp: '2022-11-15T00:00:00Z',

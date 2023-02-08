@@ -66,4 +66,36 @@ describe('<InfoPanel />', () => {
     const expectedText = `At ${strftime('%I%p', new Date(BACKEND_RESPONSES.VALID.timestamp))} on the ${strftime('%o %B %Y', new Date(BACKEND_RESPONSES.VALID.timestamp))}, the pollution was around ${Math.abs(BACKEND_RESPONSES.VALID.value - WHO_PM25_LIMIT)} below the recommended WHO limit.`
     expect(await findByText(expectedText)).toBeInTheDocument()
   })
+
+  it('displays recorded when the result is recorded', async () => {
+    const { findByText } = render(
+      <MockProvider selected={BACKEND_RESPONSES.VALID}>
+        <InfoPanel />
+      </MockProvider>,
+    )
+
+    expect(await findByText('Recorded')).toBeInTheDocument()
+  })
+
+  it('displays predicted when the result is predicted', async () => {
+    const { findByText } = render(
+      <MockProvider selected={{ ...BACKEND_RESPONSES.VALID, type: 'Predicted' }}>
+        <InfoPanel />
+      </MockProvider>,
+    )
+
+    expect(await findByText('Predicted')).toBeInTheDocument()
+  })
+
+  it('displays relevant text when the result is predicted', async () => {
+    const { findByText } = render(
+      <MockProvider selected={{ ...BACKEND_RESPONSES.VALID, type: 'Predicted' }}>
+        <InfoPanel />
+      </MockProvider>,
+    )
+
+    const expectedText = `At ${strftime('%I%p', new Date(BACKEND_RESPONSES.VALID.timestamp))} on the ${strftime('%o %B %Y', new Date(BACKEND_RESPONSES.VALID.timestamp))}, the pollution is predicted to be around ${Math.abs(BACKEND_RESPONSES.VALID.value - WHO_PM25_LIMIT)} below the recommended WHO limit.`
+
+    expect(await findByText(expectedText)).toBeInTheDocument()
+  })
 })

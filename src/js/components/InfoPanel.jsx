@@ -35,6 +35,7 @@ const InfoPanel = () => {
                 ? (
                   <div className="flexbox">
                     <h1 className="info-header">{selected.station.name}</h1>
+                    <h2 className="info-subheader">{selected.type}</h2>
                     <VictoryChart>
                       <VictoryAxis dependentAxis label="PM2.5 (µg/m3)" />
                       <VictoryAxis />
@@ -77,7 +78,11 @@ const InfoPanel = () => {
                         on the
                         {' '}
                         {strftime('%o %B %Y', new Date(selected.timestamp))}
-                        , the pollution was around
+                        , the pollution
+                        {' '}
+                        { selected.type === 'Recorded' ? 'was' : 'is predicted to be' }
+                        {' '}
+                        around
                         {' '}
                         { Math.round(Math.abs(selected.value - WHO_PM25_LIMIT)) }
                         {' '}

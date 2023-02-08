@@ -52,8 +52,9 @@ describe('COMP3000 Frontend E2E Tests', () => {
     const FirstJan = new Date(1640995200000)
     moveMap(200, 0)
     cy.get('input[aria-label=time]')
-      .invoke('val', FirstJan.getTime())
-      .trigger('mouseup')
+      .then((input) => {
+        cy.controlledInputChange(input, FirstJan.getTime().toString())
+      })
 
     cy.get('p[class=time-display-text]')
       .should('have.text', FirstJan.toString())
@@ -69,8 +70,11 @@ describe('COMP3000 Frontend E2E Tests', () => {
       .click()
 
     cy.get('input[aria-label=time]')
-      .and((input) => { input.val(FirstJan.getTime()) })
+      .then((input) => {
+        cy.controlledInputChange(input, FirstJan.getTime().toString())
+      })
       .trigger('mouseup', { force: true })
+
     cy.get('.info-explanation-container > p:nth-child(3)')
       .should('be.visible')
       .and('contain.text', `At ${dynamicTimestring}, the pollution was around 4 above the recommended WHO limit.`)

@@ -23,3 +23,18 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+// Imported from https://github.com/cypress-io/cypress/issues/1570#issuecomment-604525894 to fix error with Cypress and React:
+Cypress.Commands.add('controlledInputChange', (input, value) => {
+  const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
+    window.HTMLInputElement.prototype,
+    'value',
+  ).set
+
+  const changeInputValue = (inputToChange) => (newValue) => {
+    nativeInputValueSetter.call(inputToChange[0], newValue)
+    inputToChange[0].dispatchEvent(new Event('change', { bubbles: true, newValue }))
+  }
+
+  // eslint-disable-next-line no-shadow
+  return cy.get(input).then((input) => changeInputValue(input)(value))
+})

@@ -22,6 +22,14 @@
 .info-header {
     color: #222222;
     font-size: 2rem;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+}
+
+.info-subheader {
+    color: #222222;
+    font-size: 1rem;
+    margin: 0;
 }
 
 .info-explanation-header {

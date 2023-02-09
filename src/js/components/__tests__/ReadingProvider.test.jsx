@@ -46,20 +46,20 @@ beforeAll(() => {
   jest.useFakeTimers({ doNotFake: ['setTimeout'], now: currentDate })
 })
 
-const MockReciever = () => {
+const MockReceiver = () => {
   ({
     data, date, setDate, selected, setSelected,
   } = useContext(ReadingContext))
-  return <p>Recieved</p>
+  return <p>Received</p>
 }
 
 describe('<ReadingProvider/>', () => {
   it('sets data to the result of useBackend', async () => {
-    useBackend.mockReturnValueOnce({ data: [BACKEND_RESPONSES.VALID] })
+    useBackend.mockReturnValue({ data: [BACKEND_RESPONSES.VALID] })
 
     render(
       <ReadingProvider>
-        <MockReciever />
+        <MockReceiver />
       </ReadingProvider>,
     )
 
@@ -67,11 +67,11 @@ describe('<ReadingProvider/>', () => {
   })
 
   it('sets date to current date on render', async () => {
-    useBackend.mockReturnValueOnce({ data: [] })
+    useBackend.mockReturnValue({ data: [] })
 
     render(
       <ReadingProvider>
-        <MockReciever />
+        <MockReceiver />
       </ReadingProvider>,
     )
 
@@ -83,7 +83,7 @@ describe('<ReadingProvider/>', () => {
 
     render(
       <ReadingProvider>
-        <MockReciever />
+        <MockReceiver />
       </ReadingProvider>,
     )
 
@@ -96,16 +96,17 @@ describe('<ReadingProvider/>', () => {
     await waitFor(() => expect(date).toEqual(expected))
   })
 
-  it('calls useBackend on render', async () => {
+  it('calls useBackend with map bounds on render', async () => {
     useBackend.mockReturnValue({ data: [] })
 
     render(
       <ReadingProvider>
-        <MockReciever />
+        <MockReceiver />
       </ReadingProvider>,
     )
 
-    await waitFor(() => expect(useBackend).toHaveBeenCalledTimes(1))
+    await waitFor(() => expect(useBackend).toHaveBeenCalledTimes(2))
+    expect(useBackend).toHaveBeenNthCalledWith(2, expect.objectContaining({ bbox: fakeBounds }))
   })
 
   it('calls useBackend when moveend event fires', async () => {
@@ -113,7 +114,7 @@ describe('<ReadingProvider/>', () => {
 
     render(
       <ReadingProvider>
-        <MockReciever />
+        <MockReceiver />
       </ReadingProvider>,
     )
 
@@ -121,7 +122,7 @@ describe('<ReadingProvider/>', () => {
       useMapEvents.mock.lastCall[0].moveend()
     })
 
-    await waitFor(() => expect(useBackend).toHaveBeenCalledTimes(2))
+    await waitFor(() => expect(useBackend).toHaveBeenCalledTimes(3))
   })
 
   it('calls useBackend when date changes to the result of setDate', async () => {
@@ -129,7 +130,7 @@ describe('<ReadingProvider/>', () => {
 
     render(
       <ReadingProvider>
-        <MockReciever />
+        <MockReceiver />
       </ReadingProvider>,
     )
 
@@ -140,9 +141,9 @@ describe('<ReadingProvider/>', () => {
       setDate(expected)
     })
 
-    await waitFor(() => expect(useBackend).toHaveBeenCalledTimes(2))
+    await waitFor(() => expect(useBackend).toHaveBeenCalledTimes(3))
     expect(useBackend).toHaveBeenNthCalledWith(
-      2,
+      3,
       expect.objectContaining({ timestamp: expected.toISOString() }),
     )
   })
@@ -152,12 +153,12 @@ describe('<ReadingProvider/>', () => {
 
     render(
       <ReadingProvider>
-        <MockReciever />
+        <MockReceiver />
       </ReadingProvider>,
     )
 
-    await waitFor(() => expect(useBackend).toHaveBeenCalledTimes(1))
-    expect(useBackend).toHaveBeenNthCalledWith(1, expect.objectContaining({ timestamp: null }))
+    await waitFor(() => expect(useBackend).toHaveBeenCalledTimes(2))
+    expect(useBackend).toHaveBeenNthCalledWith(2, expect.objectContaining({ timestamp: null }))
   })
 
   it('updates selected with new data if there is an item in the backend response with the same station name on date change', async () => {
@@ -169,7 +170,7 @@ describe('<ReadingProvider/>', () => {
 
     render(
       <ReadingProvider>
-        <MockReciever />
+        <MockReceiver />
       </ReadingProvider>,
     )
     await act(() => {
@@ -193,7 +194,7 @@ describe('<ReadingProvider/>', () => {
 
     render(
       <ReadingProvider>
-        <MockReciever />
+        <MockReceiver />
       </ReadingProvider>,
     )
     await act(() => {

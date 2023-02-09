@@ -7,17 +7,8 @@ import useBackend from '../utils/useBackend'
 const ReadingProvider = ({ children }) => {
   const [selected, setSelected] = useState()
   const [date, setDate] = useState(new Date())
-  const [bounds, setBounds] = useState({})
+  const [bounds, setBounds] = useState()
   const map = useMapEvents({
-    load: () => {
-      const mapBounds = map.getBounds()
-      setBounds({
-        bottomLeftX: mapBounds.getSouthWest().lat,
-        bottomLeftY: mapBounds.getSouthWest().lng,
-        topRightX: mapBounds.getNorthEast().lat,
-        topRightY: mapBounds.getNorthEast().lng,
-      })
-    },
     moveend: () => {
       const mapBounds = map.getBounds()
       setBounds({
@@ -45,6 +36,19 @@ const ReadingProvider = ({ children }) => {
     const updated = data.find((item) => item.station.name === selected?.station.name)
     setSelected(updated)
   }, [selected, setSelected, data])
+
+  // Create markers on load:
+  // https://github.com/PaulLeCam/react-leaflet/issues/46
+  // https://stackoverflow.com/questions/67967145/how-to-place-on-load-event-handler-with-react-leaflet
+  useEffect(() => {
+    const mapBounds = map.getBounds()
+    setBounds({
+      bottomLeftX: mapBounds.getSouthWest().lat,
+      bottomLeftY: mapBounds.getSouthWest().lng,
+      topRightX: mapBounds.getNorthEast().lat,
+      topRightY: mapBounds.getNorthEast().lng,
+    })
+  }, [map])
 
   return (
     <ReadingContext.Provider

@@ -20,6 +20,11 @@ describe('COMP3000 Frontend E2E Tests', () => {
       .and('have.class', 'leaflet-tile-loaded')
   })
 
+  it('places markers on load', () => {
+    cy.get('.leaflet-marker-icon')
+      .should('be.visible')
+  })
+
   it('places markers after moving the map', () => {
     moveMap(200, 0)
     cy.get('.leaflet-marker-icon')
@@ -27,21 +32,21 @@ describe('COMP3000 Frontend E2E Tests', () => {
   })
 
   it('displays reading information when marker is clicked', () => {
-    moveMap(200, 0)
     cy.get('.leaflet-marker-icon')
+      .first()
       .click()
 
     cy.get('.info-header')
       .should('be.visible')
-      .and('contain.text', 'London Honor Oak Park')
+      .and('contain.text', 'London Westminster')
 
     cy.get('.VictoryContainer')
       .should('be.visible')
   })
 
   it('displays the attribution message', () => {
-    moveMap(200, 0)
     cy.get('.leaflet-marker-icon')
+      .first()
       .click()
 
     cy.get('.leaflet-control-attribution')
@@ -50,7 +55,6 @@ describe('COMP3000 Frontend E2E Tests', () => {
 
   it('updates the time text when the time slider is changed', () => {
     const FirstJan = new Date(1640995200000)
-    moveMap(200, 0)
     cy.get('input[aria-label=time]')
       .then((input) => {
         cy.controlledInputChange(input, FirstJan.getTime().toString())
@@ -64,9 +68,8 @@ describe('COMP3000 Frontend E2E Tests', () => {
     const FirstJan = new Date(1640995200000)
     const dynamicTimestring = `${strftime('%I%p', FirstJan)} on the ${strftime('%o %B %Y', FirstJan)}`
 
-    moveMap(200, 0)
-
     cy.get('.leaflet-marker-icon')
+      .first()
       .click()
 
     cy.get('input[aria-label=time]')
@@ -77,6 +80,6 @@ describe('COMP3000 Frontend E2E Tests', () => {
 
     cy.get('.info-explanation-container > p:nth-child(3)')
       .should('be.visible')
-      .and('contain.text', `At ${dynamicTimestring}, the pollution was around 4 above the recommended WHO limit.`)
+      .and('contain.text', `At ${dynamicTimestring}, the pollution was around 2 above the recommended WHO limit.`)
   })
 })

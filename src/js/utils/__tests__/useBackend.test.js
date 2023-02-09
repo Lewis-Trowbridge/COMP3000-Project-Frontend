@@ -104,6 +104,12 @@ describe('useBackend', () => {
     )
   })
 
+  it('does not make a call when bbox is undefined', async () => {
+    renderHook(() => useBackend({}))
+
+    expect(mockFetch).not.toHaveBeenCalled()
+  })
+
   it('makes a call whenever bbox is changed', async () => {
     const oldBbox = {
       bottomLeftX: 0,
@@ -145,24 +151,5 @@ describe('useBackend', () => {
         ...expectedRequestValues,
       },
     )
-  })
-
-  it('does not make an extra call when value-equal arguments are passed', async () => {
-    let testObject = {
-      bbox: {
-        bottomLeftX: 0,
-        bottomLeftY: 0,
-        topRightX: 0,
-        topRightY: 0,
-      },
-      timestamp: new Date(),
-    }
-    const equalObject = { ...testObject }
-
-    await act(() => {
-      renderHook(() => useBackend(testObject))
-      testObject = equalObject
-    })
-    await waitFor(() => expect(mockFetch).toBeCalledTimes(1))
   })
 })

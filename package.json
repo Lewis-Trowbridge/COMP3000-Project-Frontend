@@ -19,7 +19,6 @@
     "react-dom": "^18.2.0",
     "react-leaflet": "^4.1.0",
     "strftime": "^0.10.1",
-    "use-deep-compare-effect": "^1.8.1",
     "victory": "^36.6.8"
   },
   "devDependencies": {

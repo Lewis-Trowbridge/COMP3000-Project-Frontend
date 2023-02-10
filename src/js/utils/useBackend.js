@@ -2,18 +2,19 @@ import { useEffect, useState } from 'react'
 import { URLS } from '../constants'
 
 const useBackend = ({ timestamp, bbox }) => {
-  const url = `${URLS.BACKEND}/api/airquality`
+  const url = `${URLS.BACKEND}/api/airquality?`
   const [data, setData] = useState([])
 
   useEffect(() => {
     if (bbox) {
-      const requestObject = JSON.stringify({ bbox, timestamp })
-      const request = fetch(url, {
-        body: requestObject,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        method: 'POST',
+      const request = fetch(url + new URLSearchParams({
+        'bbox.bottomLeftX': bbox.bottomLeftX,
+        'bbox.bottomLeftY': bbox.bottomLeftY,
+        'bbox.topRightX': bbox.topRightX,
+        'bbox.topRightY': bbox.topRightY,
+        timestamp: timestamp || '',
+      }), {
+        method: 'GET',
         mode: 'cors',
       })
       request.then((response) => response.json()

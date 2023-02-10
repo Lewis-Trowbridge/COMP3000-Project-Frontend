@@ -14,9 +14,6 @@ const useBackend = ({ timestamp, bbox }) => {
         'bbox.topRightY': bbox.topRightY,
         timestamp: timestamp || '',
       }), {
-        headers: {
-          'Content-Type': 'application/json',
-        },
         method: 'GET',
         mode: 'cors',
       })

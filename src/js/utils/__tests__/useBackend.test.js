@@ -9,10 +9,7 @@ const mockData = [BACKEND_RESPONSES.VALID]
 /* eslint-enable sort-keys */
 
 const expectedRequestValues = {
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  method: 'POST',
+  method: 'GET',
   mode: 'cors',
 }
 
@@ -42,11 +39,14 @@ describe('useBackend', () => {
     expect(mockFetch).toBeCalledTimes(1)
     expect(mockFetch).toHaveBeenNthCalledWith(
       1,
-      `${URLS.BACKEND}/api/airquality`,
-      {
-        body: JSON.stringify(testObject),
-        ...expectedRequestValues,
-      },
+      `${URLS.BACKEND}/api/airquality?${new URLSearchParams({
+        'bbox.bottomLeftX': testObject.bbox.bottomLeftX,
+        'bbox.bottomLeftY': testObject.bbox.bottomLeftY,
+        'bbox.topRightX': testObject.bbox.topRightX,
+        'bbox.topRightY': testObject.bbox.topRightY,
+        timestamp: testObject.timestamp || '',
+      }).toString()}`,
+      expectedRequestValues,
     )
   })
 
@@ -88,19 +88,26 @@ describe('useBackend', () => {
     await waitFor(() => expect(mockFetch).toBeCalledTimes(2))
     expect(mockFetch).toHaveBeenNthCalledWith(
       1,
-      `${URLS.BACKEND}/api/airquality`,
-      {
-        body: JSON.stringify({ ...testObject, timestamp: oldTimestamp }),
-        ...expectedRequestValues,
-      },
+      `${URLS.BACKEND}/api/airquality?${new URLSearchParams({
+        'bbox.bottomLeftX': testObject.bbox.bottomLeftX,
+        'bbox.bottomLeftY': testObject.bbox.bottomLeftY,
+        'bbox.topRightX': testObject.bbox.topRightX,
+        'bbox.topRightY': testObject.bbox.topRightY,
+        timestamp: oldTimestamp || '',
+      }).toString()}`,
+      expectedRequestValues,
+
     )
     expect(mockFetch).toHaveBeenNthCalledWith(
       2,
-      `${URLS.BACKEND}/api/airquality`,
-      {
-        body: JSON.stringify({ ...testObject, timestamp: newTimestamp }),
-        ...expectedRequestValues,
-      },
+      `${URLS.BACKEND}/api/airquality?${new URLSearchParams({
+        'bbox.bottomLeftX': testObject.bbox.bottomLeftX,
+        'bbox.bottomLeftY': testObject.bbox.bottomLeftY,
+        'bbox.topRightX': testObject.bbox.topRightX,
+        'bbox.topRightY': testObject.bbox.topRightY,
+        timestamp: testObject.timestamp || '',
+      }).toString()}`,
+      expectedRequestValues,
     )
   })
 
@@ -137,19 +144,25 @@ describe('useBackend', () => {
     await waitFor(() => expect(mockFetch).toBeCalledTimes(2))
     expect(mockFetch).toHaveBeenNthCalledWith(
       1,
-      `${URLS.BACKEND}/api/airquality`,
-      {
-        body: JSON.stringify({ ...testObject, bbox: oldBbox }),
-        ...expectedRequestValues,
-      },
+      `${URLS.BACKEND}/api/airquality?${new URLSearchParams({
+        'bbox.bottomLeftX': oldBbox.bottomLeftX,
+        'bbox.bottomLeftY': oldBbox.bottomLeftY,
+        'bbox.topRightX': oldBbox.topRightX,
+        'bbox.topRightY': oldBbox.topRightY,
+        timestamp: testObject.timestamp || '',
+      }).toString()}`,
+      expectedRequestValues,
     )
     expect(mockFetch).toHaveBeenNthCalledWith(
       2,
-      `${URLS.BACKEND}/api/airquality`,
-      {
-        body: JSON.stringify({ ...testObject, bbox: newBox }),
-        ...expectedRequestValues,
-      },
+      `${URLS.BACKEND}/api/airquality?${new URLSearchParams({
+        'bbox.bottomLeftX': newBox.bottomLeftX,
+        'bbox.bottomLeftY': newBox.bottomLeftY,
+        'bbox.topRightX': newBox.topRightX,
+        'bbox.topRightY': newBox.topRightY,
+        timestamp: testObject.timestamp || '',
+      }).toString()}`,
+      expectedRequestValues,
     )
   })
 })

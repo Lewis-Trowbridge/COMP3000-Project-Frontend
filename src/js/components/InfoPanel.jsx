@@ -61,7 +61,10 @@ const InfoPanel = () => {
                         <sub>2.5</sub>
                         {' '}
                         describes particles in the air you breathe that are smaller than
-                        2.5 nanograms. PM2.5 particles are invisible to the naked eye
+                        2.5 nanograms. PM
+                        <sub>2.5</sub>
+                        {' '}
+                        particles are invisible to the naked eye
                         and small enough to pass through the lungs, into the bloodstream,
                         and into your organs.
                       </p>

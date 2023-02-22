@@ -1,5 +1,8 @@
-import { useContext, useMemo, useState } from 'react'
+import {
+  useContext, useEffect, useState,
+} from 'react'
 import Toggle from 'react-toggle'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import ReadingContext from '../utils/ReadingContext'
 import { LEAFLET_POSITION_CLASSES, METRICS } from '../constants'
 
@@ -14,7 +17,7 @@ const MetricSwapper = () => {
   const { setMetric } = useContext(ReadingContext)
   const [checked, setChecked] = useState(false)
 
-  useMemo(() => {
+  useEffect(() => {
     setMetric(boolToMetric[checked])
   }, [checked, setMetric])
 
@@ -25,6 +28,10 @@ const MetricSwapper = () => {
           defaultChecked={checked}
           onChange={(event) => { setChecked(event.target.checked) }}
           aria-label={`Display ${boolToMetric[!checked]}`}
+          icons={{
+            checked: <FontAwesomeIcon icon="fa-solid fa-temperature-half" inverse />,
+            unchecked: <FontAwesomeIcon icon="fa-solid fa-wind" inverse />,
+          }}
         />
       </div>
     </div>

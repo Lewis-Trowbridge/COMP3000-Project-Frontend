@@ -19,6 +19,11 @@ const TIME_VALUES = {
 const OPENSTREETMAPS_COPYRIGHT = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 const WHO_PM25_LIMIT = 5
 
+const METRICS = {
+  AIR_QUALITY: 'airquality',
+  TEMPERATURE: 'temperature',
+}
+
 export {
   // eslint-disable-next-line import/prefer-default-export
   URLS,
@@ -26,4 +31,5 @@ export {
   TIME_VALUES,
   OPENSTREETMAPS_COPYRIGHT,
   WHO_PM25_LIMIT,
+  METRICS,
 }

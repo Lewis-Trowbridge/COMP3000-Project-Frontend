@@ -29,8 +29,8 @@ const MetricSwapper = () => {
           onChange={(event) => { setChecked(event.target.checked) }}
           aria-label={`Display ${boolToMetric[!checked]}`}
           icons={{
-            checked: <FontAwesomeIcon icon="fa-solid fa-temperature-half" inverse />,
-            unchecked: <FontAwesomeIcon icon="fa-solid fa-wind" inverse />,
+            checked: <FontAwesomeIcon icon="fa-solid fa-wind" inverse />,
+            unchecked: <FontAwesomeIcon icon="fa-solid fa-temperature-half" inverse />,
           }}
         />
       </div>

@@ -31,7 +31,7 @@ const ReadingProvider = ({ children }) => {
 
   const { data } = useBackend({
     bbox: bounds,
-    metric: 'temperature',
+    metric,
     timestamp: sameDay(date) ? null : date.toISOString(),
   })
 

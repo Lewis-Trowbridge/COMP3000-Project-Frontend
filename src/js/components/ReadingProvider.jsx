@@ -3,11 +3,13 @@ import { useMapEvents } from 'react-leaflet'
 import PropTypes from 'prop-types'
 import ReadingContext from '../utils/ReadingContext'
 import useBackend from '../utils/useBackend'
+import { METRICS } from '../constants'
 
 const ReadingProvider = ({ children }) => {
   const [selected, setSelected] = useState()
   const [date, setDate] = useState(new Date())
   const [bounds, setBounds] = useState()
+  const [metric, setMetric] = useState(METRICS.AIR_QUALITY)
   const map = useMapEvents({
     moveend: () => {
       const mapBounds = map.getBounds()
@@ -53,8 +55,8 @@ const ReadingProvider = ({ children }) => {
   return (
     <ReadingContext.Provider
       value={useMemo(() => ({
-        data, date, selected, setDate, setSelected,
-      }), [data, date, selected, setDate, setSelected])}
+        data, date, metric, selected, setDate, setMetric, setSelected,
+      }), [data, date, metric, selected, setDate, setMetric, setSelected])}
     >
       {children}
     </ReadingContext.Provider>

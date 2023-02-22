@@ -18,16 +18,17 @@ const MockProvider = ({ children }) => (
 )
 
 describe('<MetricSwapper/>', () => {
-  it('does not change the default metric on render', async () => {
+  it('sets the default metric on render', async () => {
     const { findByRole } = render(
       <MockProvider>
         <MetricSwapper />
       </MockProvider>,
     )
 
-    await findByRole('checkbox', { name: 'Display' })
+    await findByRole('checkbox', { name: 'Display temperature' })
 
-    await waitFor(() => expect(mockSetMetric).not.toHaveBeenCalled())
+    await waitFor(() => expect(mockSetMetric).toHaveBeenCalledTimes(1))
+    expect(mockSetMetric).toHaveBeenNthCalledWith(1, METRICS.AIR_QUALITY)
   })
 
   it('sets metric to temperature when clicked', async () => {
@@ -38,12 +39,28 @@ describe('<MetricSwapper/>', () => {
       </MockProvider>,
     )
 
-    const swapper = await findByRole('checkbox', { name: 'Display' })
+    const swapper = await findByRole('checkbox', { name: 'Display temperature' })
 
     await user.click(swapper)
 
-    await waitFor(() => expect(mockSetMetric).toHaveBeenCalledTimes(1))
-    expect(mockSetMetric).toHaveBeenNthCalledWith(1, METRICS.TEMPERATURE)
+    await waitFor(() => expect(mockSetMetric).toHaveBeenCalledTimes(2))
+    expect(mockSetMetric).toHaveBeenNthCalledWith(2, METRICS.TEMPERATURE)
+  })
+
+  it('updates aria role name when clicked', async () => {
+    const user = userEvent.setup()
+    const { findByRole } = render(
+      <MockProvider>
+        <MetricSwapper />
+      </MockProvider>,
+    )
+
+    const swapper = await findByRole('checkbox', { name: 'Display temperature' })
+
+    await user.click(swapper)
+
+    await waitFor(() => expect(mockSetMetric).toHaveBeenCalledTimes(2))
+    expect(swapper).toHaveAccessibleName('Display airquality')
   })
 
   it('sets metric to air quality when clicked back', async () => {
@@ -54,13 +71,30 @@ describe('<MetricSwapper/>', () => {
       </MockProvider>,
     )
 
-    const swapper = await findByRole('checkbox', { name: 'Display' })
+    const swapper = await findByRole('checkbox', { name: 'Display temperature' })
 
     await user.click(swapper)
     await user.click(swapper)
 
-    await waitFor(() => expect(mockSetMetric).toHaveBeenCalledTimes(2))
-    expect(mockSetMetric).toHaveBeenNthCalledWith(1, METRICS.TEMPERATURE)
-    expect(mockSetMetric).toHaveBeenNthCalledWith(2, METRICS.AIR_QUALITY)
+    await waitFor(() => expect(mockSetMetric).toHaveBeenCalledTimes(3))
+    expect(mockSetMetric).toHaveBeenNthCalledWith(2, METRICS.TEMPERATURE)
+    expect(mockSetMetric).toHaveBeenNthCalledWith(3, METRICS.AIR_QUALITY)
+  })
+
+  it('updates aria role name when clicked back', async () => {
+    const user = userEvent.setup()
+    const { findByRole } = render(
+      <MockProvider>
+        <MetricSwapper />
+      </MockProvider>,
+    )
+
+    const swapper = await findByRole('checkbox', { name: 'Display temperature' })
+
+    await user.click(swapper)
+    await user.click(swapper)
+
+    await waitFor(() => expect(mockSetMetric).toHaveBeenCalledTimes(3))
+    expect(swapper).toHaveAccessibleName('Display temperature')
   })
 })

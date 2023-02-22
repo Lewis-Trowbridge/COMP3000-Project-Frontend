@@ -4,6 +4,7 @@ import Stations from './Stations'
 import TimeSlider from './TimeSlider'
 import InfoPanel from './InfoPanel'
 import { OPENSTREETMAPS_COPYRIGHT } from '../constants'
+import MetricSwapper from './MetricSwapper'
 
 const Map = () => (
   <MapContainer center={[51.505, -0.09]} zoom={13}>
@@ -14,6 +15,7 @@ const Map = () => (
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <InfoPanel />
+      <MetricSwapper />
       <TimeSlider />
     </ReadingProvider>
   </MapContainer>

@@ -147,4 +147,37 @@ describe('useBackend', () => {
       expectedRequestValues,
     )
   })
+
+  it('makes a call when the metric is changed', async () => {
+    const changingObject = { ...validObject }
+
+    renderHook(() => useBackend(changingObject))
+    await act(() => {
+      changingObject.metric = METRICS.TEMPERATURE
+    })
+
+    await waitFor(() => expect(mockFetch).toBeCalledTimes(2))
+    expect(mockFetch).toHaveBeenNthCalledWith(
+      1,
+      `${URLS.BACKEND}/${validObject.metric}?${new URLSearchParams({
+        'bbox.bottomLeftX': validObject.bbox.bottomLeftX,
+        'bbox.bottomLeftY': validObject.bbox.bottomLeftY,
+        'bbox.topRightX': validObject.bbox.topRightX,
+        'bbox.topRightY': validObject.bbox.topRightY,
+        timestamp: validObject.timestamp || '',
+      }).toString()}`,
+      expectedRequestValues,
+    )
+    expect(mockFetch).toHaveBeenNthCalledWith(
+      2,
+      `${URLS.BACKEND}/${changingObject.metric}?${new URLSearchParams({
+        'bbox.bottomLeftX': validObject.bbox.bottomLeftX,
+        'bbox.bottomLeftY': validObject.bbox.bottomLeftY,
+        'bbox.topRightX': validObject.bbox.topRightX,
+        'bbox.topRightY': validObject.bbox.topRightY,
+        timestamp: validObject.timestamp || '',
+      }).toString()}`,
+      expectedRequestValues,
+    )
+  })
 })

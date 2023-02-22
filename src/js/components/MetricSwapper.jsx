@@ -22,7 +22,7 @@ const MetricSwapper = () => {
   }, [checked, setMetric])
 
   return (
-    <div className={`${LEAFLET_POSITION_CLASSES.topleft}`}>
+    <div className={`${LEAFLET_POSITION_CLASSES.topleft} switcher-box`}>
       <div className="leaflet-bar leaflet-control no-outline-box">
         <Toggle
           defaultChecked={checked}

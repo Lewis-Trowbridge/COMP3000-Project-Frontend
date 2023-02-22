@@ -6,6 +6,10 @@
     border: none !important;
 }
 
+.switcher-box {
+    margin-left: 2.5vw;
+}
+
 .info-panel-box {
     justify-content: center;
     align-items: center;

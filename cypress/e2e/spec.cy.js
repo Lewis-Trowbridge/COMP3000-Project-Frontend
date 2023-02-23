@@ -98,7 +98,7 @@ describe('COMP3000 Frontend E2E Tests', () => {
       })
       .trigger('mouseup', { force: true })
 
-    cy.intercept('GET', '/airquality*', (req) => req.continue()).as('backend')
+    cy.intercept('GET', '/temperature*', (req) => req.continue()).as('backend')
 
     cy.get('.react-toggle')
       .click()

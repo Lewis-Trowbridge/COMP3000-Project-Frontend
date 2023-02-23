@@ -6,7 +6,7 @@ import { useContext, useEffect, useState } from 'react'
 import { WHO_PM25_LIMIT } from '../constants'
 import ReadingContext from '../utils/ReadingContext'
 
-const AirQualityInfo = () => {
+const AirQualityChart = () => {
   const { selected } = useContext(ReadingContext)
   const [exceedsLimit, setExceedsLimit] = useState(false)
 
@@ -82,4 +82,4 @@ const AirQualityInfo = () => {
   )
 }
 
-export default AirQualityInfo
+export default AirQualityChart

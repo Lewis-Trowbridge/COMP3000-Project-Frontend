@@ -5,7 +5,7 @@ import { BACKEND_RESPONSES } from '../../testConstants'
 
 // Disable sort keys as data structure does not need to be alphabetised
 /* eslint-disable sort-keys */
-const mockData = [BACKEND_RESPONSES.VALID]
+const mockData = [BACKEND_RESPONSES.VALID.AIR]
 /* eslint-enable sort-keys */
 
 const validObject = {

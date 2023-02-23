@@ -4,7 +4,8 @@ import ReadingContext from '../utils/ReadingContext'
 import {
   LEAFLET_POSITION_CLASSES, METRICS, OPENSTREETMAPS_COPYRIGHT,
 } from '../constants'
-import AirQualityInfo from './AirQualityChart'
+import AirQualityChart from './AirQualityChart'
+import TemperatureChart from './TemperatureChart'
 
 const InfoPanel = () => {
   const { selected, metric } = useContext(ReadingContext)
@@ -35,8 +36,8 @@ const InfoPanel = () => {
                     <h2 className="info-subheader">{selected.type}</h2>
                     {
                       {
-                        [METRICS.AIR_QUALITY]: <AirQualityInfo selected={selected} />,
-                        [METRICS.TEMPERATURE]: <p>{JSON.stringify(selected)}</p>,
+                        [METRICS.AIR_QUALITY]: <AirQualityChart />,
+                        [METRICS.TEMPERATURE]: <TemperatureChart />,
                       }[metric]
                     }
                   </div>

@@ -16,32 +16,32 @@ const MockProvider = ({ children, selected }) => (
 describe('<AirQualityChart/>', () => {
   it('displays the value of the selected reading', async () => {
     const { findByText } = render(
-      <MockProvider selected={BACKEND_RESPONSES.VALID}>
+      <MockProvider selected={BACKEND_RESPONSES.VALID.AIR}>
         <AirQualityChart />
       </MockProvider>,
     )
 
-    expect(await findByText(BACKEND_RESPONSES.VALID.value)).toBeInTheDocument()
+    expect(await findByText(BACKEND_RESPONSES.VALID.AIR.value)).toBeInTheDocument()
   })
 
   it('displays relevant text when the value is below 5', async () => {
     const { findByText } = render(
-      <MockProvider selected={BACKEND_RESPONSES.VALID}>
+      <MockProvider selected={BACKEND_RESPONSES.VALID.AIR}>
         <AirQualityChart />
       </MockProvider>,
     )
-    const expectedText = `At ${strftime('%I%p', new Date(BACKEND_RESPONSES.VALID.timestamp))} on the ${strftime('%o %B %Y', new Date(BACKEND_RESPONSES.VALID.timestamp))}, the pollution was around ${Math.abs(BACKEND_RESPONSES.VALID.value - WHO_PM25_LIMIT)} below the recommended WHO limit.`
+    const expectedText = `At ${strftime('%I%p', new Date(BACKEND_RESPONSES.VALID.AIR.timestamp))} on the ${strftime('%o %B %Y', new Date(BACKEND_RESPONSES.VALID.AIR.timestamp))}, the pollution was around ${Math.abs(BACKEND_RESPONSES.VALID.AIR.value - WHO_PM25_LIMIT)} below the recommended WHO limit.`
     expect(await findByText(expectedText)).toBeInTheDocument()
   })
 
   it('displays relevant text when the result is predicted', async () => {
     const { findByText } = render(
-      <MockProvider selected={{ ...BACKEND_RESPONSES.VALID, type: 'Predicted' }}>
+      <MockProvider selected={{ ...BACKEND_RESPONSES.VALID.AIR, type: 'Predicted' }}>
         <AirQualityChart />
       </MockProvider>,
     )
 
-    const expectedText = `At ${strftime('%I%p', new Date(BACKEND_RESPONSES.VALID.timestamp))} on the ${strftime('%o %B %Y', new Date(BACKEND_RESPONSES.VALID.timestamp))}, the pollution is predicted to be around ${Math.abs(BACKEND_RESPONSES.VALID.value - WHO_PM25_LIMIT)} below the recommended WHO limit.`
+    const expectedText = `At ${strftime('%I%p', new Date(BACKEND_RESPONSES.VALID.AIR.timestamp))} on the ${strftime('%o %B %Y', new Date(BACKEND_RESPONSES.VALID.AIR.timestamp))}, the pollution is predicted to be around ${Math.abs(BACKEND_RESPONSES.VALID.AIR.value - WHO_PM25_LIMIT)} below the recommended WHO limit.`
 
     expect(await findByText(expectedText)).toBeInTheDocument()
   })

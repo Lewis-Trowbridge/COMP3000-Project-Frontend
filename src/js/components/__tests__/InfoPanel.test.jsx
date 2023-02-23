@@ -37,17 +37,17 @@ describe('<InfoPanel />', () => {
 
   it('displays the name of the station when selected', async () => {
     const { findByText } = render(
-      <MockProvider selected={BACKEND_RESPONSES.VALID}>
+      <MockProvider selected={BACKEND_RESPONSES.VALID.AIR}>
         <InfoPanel />
       </MockProvider>,
     )
 
-    expect(await findByText(BACKEND_RESPONSES.VALID.station.name)).toBeInTheDocument()
+    expect(await findByText(BACKEND_RESPONSES.VALID.AIR.station.name)).toBeInTheDocument()
   })
 
   it('displays recorded when the result is recorded', async () => {
     const { findByText } = render(
-      <MockProvider selected={BACKEND_RESPONSES.VALID}>
+      <MockProvider selected={BACKEND_RESPONSES.VALID.AIR}>
         <InfoPanel />
       </MockProvider>,
     )
@@ -57,7 +57,7 @@ describe('<InfoPanel />', () => {
 
   it('displays predicted when the result is predicted', async () => {
     const { findByText } = render(
-      <MockProvider selected={{ ...BACKEND_RESPONSES.VALID, type: 'Predicted' }}>
+      <MockProvider selected={{ ...BACKEND_RESPONSES.VALID.AIR, type: 'Predicted' }}>
         <InfoPanel />
       </MockProvider>,
     )

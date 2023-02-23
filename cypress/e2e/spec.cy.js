@@ -86,4 +86,30 @@ describe('COMP3000 Frontend E2E Tests', () => {
       .should('be.visible')
       .and('contain.text', `At ${dynamicTimestring}, the pollution was around 4 above the recommended WHO limit.`)
   })
+
+  it('displays temperature data when swapper is clicked', () => {
+    moveMap(-400, 0)
+    const FirstJan = new Date(1640995200000)
+    const dynamicTimestring = `${strftime('%I%p', FirstJan)} on the ${strftime('%o %B %Y', FirstJan)}`
+
+    cy.get('input[aria-label=time]')
+      .then((input) => {
+        cy.controlledInputChange(input, FirstJan.getTime().toString())
+      })
+      .trigger('mouseup', { force: true })
+
+    cy.intercept('GET', '/airquality*', (req) => req.continue()).as('backend')
+
+    cy.get('.react-toggle')
+      .click()
+
+    cy.wait('@backend')
+
+    cy.get('.leaflet-marker-icon')
+      .click()
+
+    cy.get('.info-explanation-container > p:nth-child(3)')
+      .should('be.visible')
+      .and('contain.text', `At ${dynamicTimestring}, the temperature was 9.9°C.`)
+  })
 })

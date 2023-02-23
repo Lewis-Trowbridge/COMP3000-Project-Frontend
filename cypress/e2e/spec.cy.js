@@ -38,7 +38,7 @@ describe('COMP3000 Frontend E2E Tests', () => {
 
     cy.get('.info-header')
       .should('be.visible')
-      .and('contain.text', 'London Westminster')
+      .and('contain.text', 'London Bloomsbury')
 
     cy.get('.VictoryContainer')
       .should('be.visible')
@@ -65,8 +65,12 @@ describe('COMP3000 Frontend E2E Tests', () => {
   })
 
   it('updates the popup text when the time slider is changed', () => {
+    moveMap(200, 0)
+    cy.intercept('GET', '/airquality*', (req) => req.continue()).as('backend')
     const FirstJan = new Date(1640995200000)
     const dynamicTimestring = `${strftime('%I%p', FirstJan)} on the ${strftime('%o %B %Y', FirstJan)}`
+
+    cy.wait('@backend')
 
     cy.get('.leaflet-marker-icon')
       .first()
@@ -80,6 +84,6 @@ describe('COMP3000 Frontend E2E Tests', () => {
 
     cy.get('.info-explanation-container > p:nth-child(3)')
       .should('be.visible')
-      .and('contain.text', `At ${dynamicTimestring}, the pollution was around 2 above the recommended WHO limit.`)
+      .and('contain.text', `At ${dynamicTimestring}, the pollution was around 4 above the recommended WHO limit.`)
   })
 })

@@ -55,7 +55,7 @@ const MockReceiver = () => {
 
 describe('<ReadingProvider/>', () => {
   it('sets data to the result of useBackend', async () => {
-    useBackend.mockReturnValue({ data: [BACKEND_RESPONSES.VALID] })
+    useBackend.mockReturnValue({ data: [BACKEND_RESPONSES.VALID.AIR] })
 
     render(
       <ReadingProvider>
@@ -63,7 +63,7 @@ describe('<ReadingProvider/>', () => {
       </ReadingProvider>,
     )
 
-    await waitFor(() => expect(data).toEqual([BACKEND_RESPONSES.VALID]))
+    await waitFor(() => expect(data).toEqual([BACKEND_RESPONSES.VALID.AIR]))
   })
 
   it('sets date to current date on render', async () => {
@@ -162,11 +162,12 @@ describe('<ReadingProvider/>', () => {
   })
 
   it('updates selected with new data if there is an item in the backend response with the same station name on date change', async () => {
-    const updatedData = { ...BACKEND_RESPONSES.VALID, value: BACKEND_RESPONSES.VALID.value + 1 }
+    // eslint-disable-next-line max-len
+    const updatedData = { ...BACKEND_RESPONSES.VALID.AIR, value: BACKEND_RESPONSES.VALID.AIR.value + 1 }
     const newDate = new Date(currentDate)
     newDate.setDate(newDate.getDate() + 1)
 
-    useBackend.mockReturnValue({ data: [BACKEND_RESPONSES.VALID] })
+    useBackend.mockReturnValue({ data: [BACKEND_RESPONSES.VALID.AIR] })
 
     render(
       <ReadingProvider>
@@ -174,9 +175,9 @@ describe('<ReadingProvider/>', () => {
       </ReadingProvider>,
     )
     await act(() => {
-      setSelected(BACKEND_RESPONSES.VALID)
+      setSelected(BACKEND_RESPONSES.VALID.AIR)
     })
-    await waitFor(() => expect(selected).toEqual(BACKEND_RESPONSES.VALID))
+    await waitFor(() => expect(selected).toEqual(BACKEND_RESPONSES.VALID.AIR))
 
     useBackend.mockReturnValue({ data: [updatedData] })
     await act(() => {
@@ -190,7 +191,7 @@ describe('<ReadingProvider/>', () => {
     const newDate = new Date(currentDate)
     newDate.setDate(newDate.getDate() + 1)
 
-    useBackend.mockReturnValue({ data: [BACKEND_RESPONSES.VALID] })
+    useBackend.mockReturnValue({ data: [BACKEND_RESPONSES.VALID.AIR] })
 
     render(
       <ReadingProvider>
@@ -198,9 +199,9 @@ describe('<ReadingProvider/>', () => {
       </ReadingProvider>,
     )
     await act(() => {
-      setSelected(BACKEND_RESPONSES.VALID)
+      setSelected(BACKEND_RESPONSES.VALID.AIR)
     })
-    await waitFor(() => expect(selected).toEqual(BACKEND_RESPONSES.VALID))
+    await waitFor(() => expect(selected).toEqual(BACKEND_RESPONSES.VALID.AIR))
 
     useBackend.mockReturnValue({ data: [] })
     await act(() => {

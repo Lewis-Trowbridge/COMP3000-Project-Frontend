@@ -31,6 +31,7 @@ const ReadingProvider = ({ children }) => {
 
   const { data } = useBackend({
     bbox: bounds,
+    metric,
     timestamp: sameDay(date) ? null : date.toISOString(),
   })
 

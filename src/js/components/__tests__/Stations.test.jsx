@@ -29,7 +29,7 @@ jest.mock('react-leaflet', () => ({
 describe('<Stations/>', () => {
   it('renders a set of markers from a set of return data', async () => {
     const { findByRole } = render(
-      <MockProvider data={[BACKEND_RESPONSES.VALID]}>
+      <MockProvider data={[BACKEND_RESPONSES.VALID.AIR]}>
         <Stations />
       </MockProvider>,
     )
@@ -57,7 +57,7 @@ describe('<Stations/>', () => {
     expect(queryByRole('button')).not.toBeInTheDocument()
 
     rerender(
-      <MockProvider data={[BACKEND_RESPONSES.VALID]}>
+      <MockProvider data={[BACKEND_RESPONSES.VALID.AIR]}>
         <Stations />
       </MockProvider>,
     )
@@ -67,7 +67,7 @@ describe('<Stations/>', () => {
   it('calls setSelected with the given data when clicking the relevant marker', async () => {
     const user = userEvent.setup()
     const { findByRole } = render(
-      <MockProvider data={[BACKEND_RESPONSES.VALID]}>
+      <MockProvider data={[BACKEND_RESPONSES.VALID.AIR]}>
         <Stations />
       </MockProvider>,
     )
@@ -76,6 +76,6 @@ describe('<Stations/>', () => {
     await user.click(button)
 
     await waitFor(() => expect(mockSetSelected).toHaveBeenCalledTimes(1))
-    expect(mockSetSelected).toHaveBeenNthCalledWith(1, BACKEND_RESPONSES.VALID)
+    expect(mockSetSelected).toHaveBeenNthCalledWith(1, BACKEND_RESPONSES.VALID.AIR)
   })
 })

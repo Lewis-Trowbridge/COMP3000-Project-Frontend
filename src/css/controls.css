@@ -6,6 +6,10 @@
     border: none !important;
 }
 
+.switcher-box {
+    margin-left: 2.5vw;
+}
+
 .info-panel-box {
     justify-content: center;
     align-items: center;
@@ -50,6 +54,12 @@
     word-wrap: break-word;
     width: 30vw;
     font-size: 0.85rem;
+}
+
+.info-link {
+    display: inline !important;
+    line-height: inherit !important;
+    color: #0074D9 !important;
 }
 
 .no-info-text {

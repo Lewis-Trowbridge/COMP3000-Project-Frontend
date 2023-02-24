@@ -5,6 +5,8 @@ import ReadingContext from '../../utils/ReadingContext'
 import MetricSwapper from '../MetricSwapper'
 import { METRICS } from '../../constants'
 
+jest.mock('@fortawesome/react-fontawesome')
+
 const mockSetMetric = jest.fn()
 
 // eslint-disable-next-line react/prop-types

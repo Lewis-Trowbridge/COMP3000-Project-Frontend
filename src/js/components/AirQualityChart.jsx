@@ -15,7 +15,7 @@ const AirQualityChart = () => {
   }, [selected.value])
 
   return (
-    <div>
+    <>
       <VictoryChart>
         <VictoryAxis dependentAxis label="PM2.5 (µg/m3)" />
         <VictoryAxis />
@@ -78,7 +78,7 @@ const AirQualityChart = () => {
         Taskforce for Lung Health,
         Imperial College London
       </cite>
-    </div>
+    </>
   )
 }
 

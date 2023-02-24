@@ -56,6 +56,12 @@
     font-size: 0.85rem;
 }
 
+.info-link {
+    display: inline !important;
+    line-height: inherit !important;
+    color: #0074D9 !important;
+}
+
 .no-info-text {
     color: #666666;
     font-size: x-large;

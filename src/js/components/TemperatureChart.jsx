@@ -7,7 +7,7 @@ const TemperatureChart = () => {
   const { selected } = useContext(ReadingContext)
 
   return (
-    <div>
+    <>
       <VictoryChart>
         <VictoryAxis dependentAxis label={`Temperature (${selected.unit})`} />
         <VictoryAxis />
@@ -27,15 +27,40 @@ const TemperatureChart = () => {
           One of the most straightforward impacts is temperature, which the UK has not been spared.
         </p>
         <p>
-          {/* TODO: Introduce links https://www.bbc.co.uk/news/science-environment-63244353 */}
-          The 2022 heatwave is a recent example of extreme weather as a result of climate change,
+          The 2022 heatwave is a recent example of
+          {' '}
+          <a
+            href="https://www.bbc.co.uk/news/science-environment-63244353"
+            target="_blank"
+            rel="noreferrer"
+            className="info-link"
+          >
+            {' '}
+            extreme weather as a result of climate change,
+          </a>
+          {' '}
           breaking numerous maximum temperature records across the UK.
           {' '}
-          {/* TODO: Introduce links https://www.metoffice.gov.uk/about-us/press-office/news/weather-and-climate/2022/2023-global-temperature-forecast */}
-          Even in January 2023, temperatures were abnormally high.
+          <a
+            href="https://www.metoffice.gov.uk/about-us/press-office/news/weather-and-climate/2022/2023-global-temperature-forecast"
+            target="_blank"
+            rel="noreferrer"
+            className="info-link"
+          >
+            Even in January 2023,
+          </a>
           {' '}
-          {/* TODO: Introduce links https://www.bbc.co.uk/news/science-environment-63407459 */}
-          Urgent sweeping action is needed to address this trend.
+          temperatures were abnormally high.
+          {' '}
+          <a
+            href="https://www.bbc.co.uk/news/science-environment-63407459"
+            target="_blank"
+            rel="noreferrer"
+            className="info-link"
+          >
+            Urgent sweeping action is needed to address this trend.
+          </a>
+
         </p>
         <p>
           At
@@ -55,7 +80,7 @@ const TemperatureChart = () => {
         </p>
         <cite>BBC News, Met Office</cite>
       </div>
-    </div>
+    </>
   )
 }
 

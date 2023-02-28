@@ -55,8 +55,8 @@ const ReadingProvider = ({ children }) => {
   return (
     <ReadingContext.Provider
       value={useMemo(() => ({
-        data, date, metric, selected, setDate, setMetric, setSelected,
-      }), [data, date, metric, selected, setDate, setMetric, setSelected])}
+        bounds, data, date, metric, selected, setDate, setMetric, setSelected,
+      }), [bounds, data, date, metric, selected, setDate, setMetric, setSelected])}
     >
       {children}
     </ReadingContext.Provider>

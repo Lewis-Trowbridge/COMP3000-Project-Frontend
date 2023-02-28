@@ -6,10 +6,9 @@ import { Delaunay } from 'd3-delaunay'
 import ReadingContext from '../utils/ReadingContext'
 
 const Stations = () => {
-  // eslint-disable-next-line no-unused-vars
   const { bounds, data, setSelected } = useContext(ReadingContext)
 
-  const polygonCoords = useMemo(() => {
+  const polygonData = useMemo(() => {
     if (bounds && data) {
       const bbox = [
         bounds.bottomLeftY,
@@ -21,9 +20,18 @@ const Stations = () => {
         reading.station.coordinates.lng, reading.station.coordinates.lat]))
       const voronoi = Delaunay.from(sites).voronoi(bbox)
       const polygons = []
+      // Indexes line up, generator system forces us to use inelegant method
+      let index = 0
       // eslint-disable-next-line no-restricted-syntax
       for (const point of voronoi.cellPolygons()) {
-        polygons.push(point.map((lngLatArr) => ([lngLatArr[1], lngLatArr[0]])))
+        const polygonInfo = {
+          coords: [],
+          data: data[index],
+        }
+        point.forEach((lngLatArr) => { polygonInfo.coords.push([lngLatArr[1], lngLatArr[0]]) })
+        polygons.push(polygonInfo)
+        // eslint-disable-next-line no-plusplus
+        index++
       }
       return polygons
     }
@@ -32,12 +40,11 @@ const Stations = () => {
 
   return (
     <div>
-      {polygonCoords.map((coords) => (
+      {polygonData.map((polygon) => (
         <Polygon
-          positions={coords}
+          positions={polygon.coords}
           eventHandlers={{
-            // eslint-disable-next-line no-console
-            click: () => console.log(coords),
+            click: () => setSelected(polygon.data),
           }}
         />
       ))}

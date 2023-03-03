@@ -42,6 +42,7 @@ const Stations = () => {
     <div>
       {polygonData.map((polygon) => (
         <Polygon
+          key={polygon.data.station.name}
           positions={polygon.coords}
           eventHandlers={{
             click: () => setSelected(polygon.data),

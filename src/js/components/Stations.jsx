@@ -19,21 +19,11 @@ const Stations = () => {
       const sites = data.map((reading) => ([
         reading.station.coordinates.lng, reading.station.coordinates.lat]))
       const voronoi = Delaunay.from(sites).voronoi(bbox)
-      const polygons = []
-      // Indexes line up, generator system forces us to use inelegant method
-      let index = 0
-      // eslint-disable-next-line no-restricted-syntax
-      for (const point of voronoi.cellPolygons()) {
-        const polygonInfo = {
-          coords: [],
-          data: data[index],
-        }
-        point.forEach((lngLatArr) => { polygonInfo.coords.push([lngLatArr[1], lngLatArr[0]]) })
-        polygons.push(polygonInfo)
-        // eslint-disable-next-line no-plusplus
-        index++
-      }
-      return polygons
+      const polygonArray = [...voronoi.cellPolygons()]
+      return polygonArray.map((item, index) => ({
+        coords: item.map((latLngArray) => latLngArray.reverse()),
+        data: data[index],
+      }))
     }
     return []
   }, [bounds, data])

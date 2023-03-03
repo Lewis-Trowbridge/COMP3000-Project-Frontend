@@ -1,19 +1,41 @@
-import { Marker } from 'react-leaflet'
-import { useContext } from 'react'
+import { Polygon } from 'react-leaflet'
+import {
+  useContext, useMemo,
+} from 'react'
+import { Delaunay } from 'd3-delaunay'
 import ReadingContext from '../utils/ReadingContext'
 
 const Stations = () => {
-  const { data, setSelected } = useContext(ReadingContext)
+  const { bounds, data, setSelected } = useContext(ReadingContext)
+
+  const polygonData = useMemo(() => {
+    if (bounds && data) {
+      const bbox = [
+        bounds.bottomLeftY,
+        bounds.bottomLeftX,
+        bounds.topRightY,
+        bounds.topRightX,
+      ]
+      const sites = data.map((reading) => ([
+        reading.station.coordinates.lng, reading.station.coordinates.lat]))
+      const voronoi = Delaunay.from(sites).voronoi(bbox)
+      const polygonArray = [...voronoi.cellPolygons()]
+      return polygonArray.map((item, index) => ({
+        coords: item.map((latLngArray) => latLngArray.reverse()),
+        data: data[index],
+      }))
+    }
+    return []
+  }, [bounds, data])
+
   return (
     <div>
-      {data.map((reading) => (
-        <Marker
-          key={reading.station.name}
-          position={reading.station.coordinates}
+      {polygonData.map((polygon) => (
+        <Polygon
+          key={polygon.data.station.name}
+          positions={polygon.coords}
           eventHandlers={{
-            click: () => {
-              setSelected(reading)
-            },
+            click: () => setSelected(polygon.data),
           }}
         />
       ))}

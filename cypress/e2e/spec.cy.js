@@ -28,32 +28,32 @@ describe('COMP3000 Frontend E2E Tests', () => {
       .and('have.class', 'leaflet-tile-loaded')
   })
 
-  it('places markers on load', () => {
-    cy.get('.leaflet-marker-icon')
+  it('draws polygons on load', () => {
+    cy.get('path.leaflet-interactive')
       .should('be.visible')
   })
 
   it('places markers after moving the map', () => {
     moveMap(200, 0)
-    cy.get('.leaflet-marker-icon')
+    cy.get('path.leaflet-interactive')
       .should('be.visible')
   })
 
   it('displays reading information when marker is clicked', () => {
-    cy.get('.leaflet-marker-icon')
+    cy.get('path.leaflet-interactive')
       .first()
       .click()
 
     cy.get('.info-header')
       .should('be.visible')
-      .and('contain.text', 'London Bloomsbury')
+      .and('contain.text', 'London Westminster')
 
     cy.get('.VictoryContainer')
       .should('be.visible')
   })
 
   it('displays the attribution message', () => {
-    cy.get('.leaflet-marker-icon')
+    cy.get('path.leaflet-interactive')
       .first()
       .click()
 
@@ -78,7 +78,7 @@ describe('COMP3000 Frontend E2E Tests', () => {
     const FirstJan = new Date(1640995200000)
     const dynamicTimestring = `${strftime('%I%p', FirstJan)} on the ${strftime('%o %B %Y', FirstJan)}`
 
-    cy.get('.leaflet-marker-icon')
+    cy.get('path.leaflet-interactive')
       .click()
 
     cy.get('input[aria-label=time]')
@@ -110,7 +110,7 @@ describe('COMP3000 Frontend E2E Tests', () => {
 
     cy.wait(temperatureBackendAlias)
 
-    cy.get('.leaflet-marker-icon')
+    cy.get('path.leaflet-interactive')
       .click()
 
     cy.get('.info-explanation-container > p:nth-child(3)')

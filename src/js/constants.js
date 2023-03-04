@@ -17,11 +17,35 @@ const TIME_VALUES = {
 }
 
 const OPENSTREETMAPS_COPYRIGHT = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+
 const WHO_PM25_LIMIT = 5
 
 const METRICS = {
   AIR_QUALITY: 'airquality',
   TEMPERATURE: 'temperature',
+}
+const COLOUR_SCALES = {
+  [METRICS.AIR_QUALITY]: {
+    1: '#009900',
+    2: '#479500',
+    3: '#698f00',
+    4: '#868700',
+    5: '#a27d00',
+    6: '#bc6f00',
+    7: '#d55c00',
+    8: '#eb4100',
+    9: '#ff0000',
+    10: '#990099',
+  },
+  [METRICS.TEMPERATURE]: {
+    1: '#3bafe5',
+    2: '#95d9f2',
+    3: '#ffffff',
+    4: '#ffd573',
+    5: '#ffb400',
+    6: '#fe7701',
+    7: '#ff0000',
+  },
 }
 
 export {
@@ -32,4 +56,5 @@ export {
   OPENSTREETMAPS_COPYRIGHT,
   WHO_PM25_LIMIT,
   METRICS,
+  COLOUR_SCALES,
 }

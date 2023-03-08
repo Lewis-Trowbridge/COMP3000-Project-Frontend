@@ -4,6 +4,11 @@ import userEvent from '@testing-library/user-event'
 import Stations from '../Stations'
 import { BACKEND_RESPONSES } from '../../testConstants'
 import ReadingContext from '../../utils/ReadingContext'
+import getColourCode from '../../utils/getColourCode'
+
+jest.mock('../../utils/getColourCode')
+
+getColourCode.mockReturnValue('#FF0000')
 
 const validBounds = {
   bottomLeftX: 50.28802311905958,

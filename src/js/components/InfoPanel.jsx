@@ -24,14 +24,14 @@ const InfoPanel = () => {
   }, [selected, attributionControl])
 
   return (
-    <div className={`${LEAFLET_POSITION_CLASSES.topright} info-panel`}>
+    <div className={`${LEAFLET_POSITION_CLASSES.topright}`}>
       <div className="leaflet-bar leaflet-control">
         <div className="control-box info-panel-box">
           <div className="flex-container">
             {
               selected
                 ? (
-                  <div className="flexbox">
+                  <div className="flexbox info-panel">
                     <h1 className="info-header">{selected.station.name}</h1>
                     <h2 className="info-subheader">{selected.type}</h2>
                     {

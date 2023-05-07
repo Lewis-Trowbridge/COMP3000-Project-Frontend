@@ -7,7 +7,7 @@ import { OPENSTREETMAPS_COPYRIGHT } from '../constants'
 import MetricSwapper from './MetricSwapper'
 
 const Map = () => (
-  <MapContainer center={[51.505, -0.09]} zoom={13}>
+  <MapContainer center={[50.37331291880916, -4.140660226679756]} zoom={12}>
     <ReadingProvider>
       <Stations />
       <TileLayer

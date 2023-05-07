@@ -2,17 +2,14 @@ import {
   VictoryAxis, VictoryBar, VictoryChart, VictoryLabel, VictoryLine,
 } from 'victory'
 import strftime from 'strftime'
-import { useContext, useEffect, useState } from 'react'
+import { useContext } from 'react'
 import { WHO_PM25_LIMIT } from '../constants'
 import ReadingContext from '../utils/ReadingContext'
 
 const AirQualityChart = () => {
   const { selected } = useContext(ReadingContext)
-  const [exceedsLimit, setExceedsLimit] = useState(false)
 
-  useEffect(() => {
-    setExceedsLimit(selected.value > WHO_PM25_LIMIT)
-  }, [selected.value])
+  const exceedsLimit = selected.value >= WHO_PM25_LIMIT
 
   return (
     <>

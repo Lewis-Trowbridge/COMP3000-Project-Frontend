@@ -1,4 +1,6 @@
 # COMP3000 Project - Frontend
+#### Project title: EDDAP (Environmental Data Display and Predictions)
+#### Supervisor: Dr David Walker
 
 ## What is this?
 
@@ -45,3 +47,13 @@ The code requires Node 16. Commands are as in the package.json -
 - `npm run` - Builds and starts the development server
 - `npm build` - Builds the production build to /dist
 - `npm test` - Runs unit tests
+
+
+## Project vision
+
+- For: researchers and the public
+- Who: need a better understanding of the climate crisis
+- The: environmental data dashboard
+- Is a: web application dashboard
+- That: can make predictions for the future of the environment and display environmental data such as air pollution in an easy-to-understand format
+
